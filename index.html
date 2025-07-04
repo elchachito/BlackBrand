@@ -23,7 +23,8 @@
     header h1 {
       margin: 0;
       font-size: 24px;
-      animation: aparecerDesdeArriba 2s ease forwards;
+      /* Animación título principal al cargar */
+      animation: aparecerDesdeArriba 2s ease forwards; /* ANIMACIÓN */
     }
     nav ul {
       display: flex;
@@ -41,21 +42,21 @@
       text-decoration: none;
       font-size: 18px;
       padding: 8px 5px;
-      transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+      transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease; /* ANIMACIÓN */
     }
     nav a:hover {
-      transform: scale(1.05);
+      transform: scale(1.05); /* ANIMACIÓN */
     }
     section {
       padding: 40px 20px;
       text-align: center;
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+      opacity: 0;              /* ANIMACIÓN */
+      transform: translateY(30px); /* ANIMACIÓN */
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out; /* ANIMACIÓN */
     }
     section.visible {
-      opacity: 1;
-      transform: translateY(0);
+      opacity: 1;              /* ANIMACIÓN */
+      transform: translateY(0); /* ANIMACIÓN */
     }
     footer {
       background: #1f1f1f;
@@ -64,7 +65,7 @@
     }
     .productos {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); /* Grid flexible */
       gap: 20px;
       justify-items: center;
       padding: 0 10px;
@@ -76,12 +77,12 @@
       width: 100%;
       max-width: 180px;
       box-sizing: border-box;
-      cursor: pointer;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer; /* ANIMACIÓN */
+      transition: transform 0.3s ease, box-shadow 0.3s ease; /* ANIMACIÓN */
     }
     .producto:hover {
-      transform: translateY(-8px) scale(1.05);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+      transform: translateY(-8px) scale(1.05); /* ANIMACIÓN */
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5); /* ANIMACIÓN */
       z-index: 10;
     }
     .producto img {
@@ -104,10 +105,10 @@
       color: #121212;
       cursor: pointer;
       box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-      transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+      transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease; /* ANIMACIÓN */
     }
     #open-chatbot-btn:hover {
-      transform: scale(1.05);
+      transform: scale(1.05); /* ANIMACIÓN */
     }
     #chatbot {
       display: none;
@@ -165,10 +166,10 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+      transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease; /* ANIMACIÓN */
     }
     .whatsapp-btn:hover {
-      transform: scale(1.05);
+      transform: scale(1.05); /* ANIMACIÓN */
     }
 
     /* Modo Claro */
@@ -201,10 +202,36 @@
       }
     }
 
+    /* Botón modo claro/oscuro fijo y estilizado */
+    #toggle-mode-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #1f1f1f;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      color: #eee;
+      font-size: 22px;
+      cursor: pointer;
+      border: none;
+      box-shadow: 0 0 8px rgba(0,0,0,0.7);
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+    }
+    #toggle-mode-btn:hover {
+      background-color: #25d366;
+      color: #121212;
+      transform: scale(1.1);
+    }
+
     /* --- MEDIA QUERIES --- */
     @media (max-width: 768px) {
       nav ul {
-        flex-direction: column;
+        flex-direction: column; /* Nav vertical en móvil */
         padding: 5px 0;
       }
       nav li {
@@ -231,7 +258,7 @@
       .whatsapp-btn {
         font-size: 16px;
         padding: 10px 14px;
-        bottom: 80px;
+        bottom: 80px; /* Para que no choque con chatbot */
       }
     }
 
@@ -252,7 +279,6 @@
 
   <header>
     <h1>Black Brand</h1>
-    <button id="toggle-mode-btn" aria-label="Cambiar modo claro/oscuro">🌙</button>
   </header>
 
   <nav>
@@ -326,8 +352,11 @@
     </form>
   </div>
 
+  <!-- Botón modo claro/oscuro -->
+  <button id="toggle-mode-btn" aria-label="Cambiar modo claro/oscuro">🌙</button>
+
   <script>
-    // Mostrar secciones con animación al hacer scroll
+    // Animar secciones al hacer scroll
     function detectarScroll() {
       const secciones = document.querySelectorAll("section");
       secciones.forEach((sec) => {
@@ -340,51 +369,50 @@
     window.addEventListener("scroll", detectarScroll);
     window.addEventListener("load", detectarScroll);
 
-    // Chatbot básico
-    const openChatBtn = document.getElementById("open-chatbot-btn"),
-          closeChatBtn = document.getElementById("close-chatbot"),
-          chatbot = document.getElementById("chatbot"),
-          chatForm = document.getElementById("chat-form"),
-          messages = document.querySelector(".messages"),
-          userInput = document.getElementById("user-input");
+    // Chatbot
+    const oc = document.getElementById("open-chatbot-btn"),
+      cc = document.getElementById("close-chatbot"),
+      ch = document.getElementById("chatbot"),
+      form = document.getElementById("chat-form"),
+      msgs = document.querySelector(".messages"),
+      inp = document.getElementById("user-input");
 
-    openChatBtn.onclick = () => {
-      chatbot.style.display = "flex";
-      openChatBtn.style.display = "none";
-      userInput.focus();
+    oc.onclick = () => {
+      ch.style.display = "flex";
+      oc.style.display = "none";
+      inp.focus();
     };
-    closeChatBtn.onclick = () => {
-      chatbot.style.display = "none";
-      openChatBtn.style.display = "block";
+    cc.onclick = () => {
+      ch.style.display = "none";
+      oc.style.display = "block";
     };
-    chatForm.onsubmit = (e) => {
+    form.onsubmit = (e) => {
       e.preventDefault();
-      const msg = userInput.value.trim();
-      if (!msg) return;
+      const userMsg = inp.value.trim();
+      if (!userMsg) return;
+      const userDiv = document.createElement("div");
+      userDiv.textContent = "Tú: " + userMsg;
+      userDiv.style.textAlign = "right";
+      msgs.appendChild(userDiv);
 
-      // Mensaje usuario
-      const userMsg = document.createElement("div");
-      userMsg.textContent = "Tú: " + msg;
-      userMsg.style.textAlign = "right";
-      messages.appendChild(userMsg);
+      // Respuesta bot dummy
+      const botDiv = document.createElement("div");
+      botDiv.textContent = "BlackBot: Aquí tu respuesta automática.";
+      msgs.appendChild(botDiv);
 
-      // Respuesta bot (puedes mejorar esta lógica)
-      const botMsg = document.createElement("div");
-      botMsg.textContent = "BlackBot: Aquí tu respuesta automática.";
-      messages.appendChild(botMsg);
-
-      userInput.value = "";
-      messages.scrollTop = messages.scrollHeight;
+      inp.value = "";
+      msgs.scrollTop = msgs.scrollHeight;
     };
 
-    // Toggle modo claro/oscuro
-    const toggleModeBtn = document.getElementById("toggle-mode-btn");
-    toggleModeBtn.onclick = () => {
+    // Modo claro/oscuro toggle
+    const toggle = document.getElementById("toggle-mode-btn");
+    toggle.onclick = () => {
       document.body.classList.toggle("claro");
-      toggleModeBtn.textContent = document.body.classList.contains("claro")
+      toggle.textContent = document.body.classList.contains("claro")
         ? "🌙"
         : "☀️";
     };
   </script>
 </body>
 </html>
+
