@@ -1,32 +1,20 @@
 /* Fuente moderna */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
 
-/* Variables para colores */
-:root {
-    --bg-color: #121212;
-    --text-color: #eee;
-    --header-bg: #1f1f1f;
-    --nav-bg: #222;
-    --nav-hover-bg: #333;
-    --producto-bg: #1e1e1e;
-    --footer-bg: #1f1f1f;
-    --boton-whatsapp-bg: #25D366;
-}
-
 body {
     font-family: 'Poppins', sans-serif;
-    background-color: var(--bg-color);
-    color: var(--text-color);
+    background-color: #121212;
+    color: #eee;
     margin: 0;
     padding: 0;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 header {
-    background-color: var(--header-bg);
+    background-color: #1f1f1f;
     padding: 30px 20px;
     text-align: center;
-    transition: background-color 0.3s ease;
+    position: relative;
 }
 
 header h1 {
@@ -34,14 +22,24 @@ header h1 {
     font-size: 2.5rem;
 }
 
+#toggle-dark {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #eee;
+}
+
 nav ul {
     list-style: none;
     padding: 0;
     margin: 0;
-    background-color: var(--nav-bg);
+    background-color: #222;
     display: flex;
     justify-content: center;
-    transition: background-color 0.3s ease;
 }
 
 nav ul li {
@@ -49,7 +47,7 @@ nav ul li {
 }
 
 nav ul li a {
-    color: var(--text-color);
+    color: #eee;
     text-decoration: none;
     padding: 15px 0;
     display: block;
@@ -57,7 +55,7 @@ nav ul li a {
 }
 
 nav ul li a:hover {
-    background-color: var(--nav-hover-bg);
+    background-color: #333;
 }
 
 .hero {
@@ -89,7 +87,7 @@ section {
 }
 
 .producto {
-    background-color: var(--producto-bg);
+    background-color: #1e1e1e;
     padding: 15px;
     border-radius: 10px;
     text-align: center;
@@ -110,7 +108,7 @@ section {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    background-color: var(--boton-whatsapp-bg);
+    background-color: #25D366;
     color: white;
     padding: 15px;
     border-radius: 50%;
@@ -122,11 +120,28 @@ section {
 }
 
 footer {
-    background-color: var(--footer-bg);
+    background-color: #1f1f1f;
     text-align: center;
     padding: 20px;
     font-size: 0.9rem;
-    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.redes-sociales {
+    margin-top: 15px;
+}
+
+.redes-sociales a {
+    color: #eee;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+body.light .redes-sociales a {
+    color: #121212;
+}
+
+.redes-sociales a:hover {
+    color: #e1306c; /* Color Instagram */
+    transform: scale(1.2);
 }
 
 @media (max-width: 768px) {
@@ -143,12 +158,30 @@ footer {
 
 /* Estilos para modo claro */
 body.light {
-    --bg-color: #f5f5f5;
-    --text-color: #121212;
-    --header-bg: #ddd;
-    --nav-bg: #ccc;
-    --nav-hover-bg: #bbb;
-    --producto-bg: #eee;
-    --footer-bg: #ddd;
-    --boton-whatsapp-bg: #25D366;
+    background-color: #f5f5f5;
+    color: #121212;
+}
+
+body.light header {
+    background-color: #e0e0e0;
+}
+
+body.light nav ul {
+    background-color: #d5d5d5;
+}
+
+body.light nav ul li a {
+    color: #121212;
+}
+
+body.light nav ul li a:hover {
+    background-color: #c0c0c0;
+}
+
+body.light .producto {
+    background-color: #f0f0f0;
+}
+
+body.light footer {
+    background-color: #e0e0e0;
 }
