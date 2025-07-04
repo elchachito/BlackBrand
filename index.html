@@ -1,341 +1,239 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Black Brand</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Black Brand con Boy Chatbot</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <style>
+        /* Estilos básicos para el chatbot */
+        #chatbot {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 320px;
+            max-width: 90vw;
+            background: #1f1f1f;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.5);
+            color: #eee;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 10000;
+        }
 
-  body {
-    font-family: 'Poppins', sans-serif;
-    background-color: #121212;
-    color: #eee;
-    margin: 0;
-    padding: 0;
-    transition: background-color 0.3s ease, color 0.3s ease;
-  }
+        #chatbot header {
+            background: #222;
+            padding: 12px 16px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-  header {
-    background-color: #1f1f1f;
-    padding: 30px 20px;
-    text-align: center;
-    position: relative;
-  }
+        #chatbot header button {
+            background: none;
+            border: none;
+            color: #eee;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
 
-  header h1 {
-    margin: 0;
-    font-size: 2.5rem;
-  }
+        #chatbot .messages {
+            flex-grow: 1;
+            padding: 12px;
+            overflow-y: auto;
+            background: #121212;
+        }
 
-  #toggle-dark {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-    color: #eee;
-  }
+        #chatbot .message {
+            margin-bottom: 12px;
+            line-height: 1.3;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
 
-  nav ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    background-color: #222;
-    display: flex;
-    justify-content: center;
-  }
+        #chatbot .message.boy {
+            background: #25D366;
+            color: #121212;
+            padding: 8px 12px;
+            border-radius: 16px 16px 16px 0;
+            align-self: flex-start;
+        }
 
-  nav ul li {
-    margin: 0 15px;
-  }
+        #chatbot .message.user {
+            background: #444;
+            color: #eee;
+            padding: 8px 12px;
+            border-radius: 16px 16px 0 16px;
+            align-self: flex-end;
+        }
 
-  nav ul li a {
-    color: #eee;
-    text-decoration: none;
-    padding: 15px 0;
-    display: block;
-    transition: background-color 0.3s ease;
-  }
+        #chatbot form {
+            display: flex;
+            border-top: 1px solid #333;
+            background: #222;
+        }
 
-  nav ul li a:hover {
-    background-color: #333;
-  }
+        #chatbot form input {
+            flex-grow: 1;
+            border: none;
+            padding: 12px 16px;
+            font-size: 1rem;
+            background: #121212;
+            color: #eee;
+        }
 
-  .hero {
-    background-image: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1350&q=80');
-    background-size: cover;
-    background-position: center;
-    height: 70vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-  }
+        #chatbot form button {
+            background: #25D366;
+            border: none;
+            padding: 0 20px;
+            cursor: pointer;
+            color: #121212;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
 
-  .hero h1 {
-    font-size: 3rem;
-    color: #fff;
-    text-shadow: 2px 2px 10px rgba(0,0,0,0.7);
-  }
-
-  section {
-    padding: 40px 20px;
-  }
-
-  .productos {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .producto {
-    background-color: #1e1e1e;
-    padding: 15px;
-    border-radius: 10px;
-    text-align: center;
-    width: 200px;
-    transition: transform 0.3s ease;
-  }
-
-  .producto img {
-    width: 100%;
-    border-radius: 8px;
-  }
-
-  .producto:hover {
-    transform: scale(1.05);
-  }
-
-  .boton-whatsapp-fijo {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: #25D366;
-    color: white;
-    padding: 15px;
-    border-radius: 50%;
-    text-align: center;
-    text-decoration: none;
-    font-size: 24px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-    z-index: 100;
-  }
-
-  footer {
-    background-color: #1f1f1f;
-    text-align: center;
-    padding: 20px;
-    font-size: 0.9rem;
-  }
-
-  .redes-sociales {
-    margin-top: 15px;
-  }
-
-  .redes-sociales a {
-    color: #eee;
-    transition: color 0.3s ease, transform 0.3s ease;
-    display: inline-block;
-    margin: 0 5px;
-  }
-
-  body.light .redes-sociales a {
-    color: #121212;
-  }
-
-  .redes-sociales a:hover {
-    color: #e1306c; /* Color Instagram */
-    transform: scale(1.2);
-  }
-
-  /* Instagram logo animation */
-  .redes-sociales img {
-    width: 32px;
-    height: 32px;
-    transition: transform 0.3s ease, filter 0.3s ease;
-    cursor: pointer;
-  }
-
-  .redes-sociales img:hover {
-    transform: rotate(15deg) scale(1.2);
-    filter: brightness(1.2);
-  }
-
-  @media (max-width: 768px) {
-    nav ul {
-      flex-direction: column;
-      background-color: #1f1f1f;
-    }
-
-    nav ul li {
-      margin: 10px 0;
-      text-align: center;
-    }
-
-    nav ul li a {
-      padding: 10px 0;
-      font-size: 1.2rem;
-    }
-
-    header {
-      padding: 20px 10px;
-    }
-
-    .hero {
-      height: 50vh;
-      padding: 0 15px;
-    }
-
-    .hero h1 {
-      font-size: 1.8rem;
-      line-height: 1.2;
-    }
-
-    .productos {
-      flex-direction: column;
-      width: 100%;
-      padding: 0 10px;
-    }
-
-    .producto {
-      width: 100%;
-      max-width: 350px;
-      margin: 0 auto 20px;
-    }
-
-    footer {
-      padding: 15px 10px;
-      font-size: 0.85rem;
-    }
-
-    .boton-whatsapp-fijo {
-      bottom: 15px;
-      right: 15px;
-      padding: 20px;
-      font-size: 28px;
-    }
-  }
-
-  @media (max-width: 400px) {
-    nav ul li a {
-      font-size: 1rem;
-      padding: 8px 0;
-    }
-
-    .hero h1 {
-      font-size: 1.4rem;
-    }
-
-    .producto {
-      max-width: 280px;
-    }
-  }
-
-  /* Light mode */
-  body.light {
-    background-color: #f5f5f5;
-    color: #121212;
-  }
-
-  body.light header {
-    background-color: #e0e0e0;
-  }
-
-  body.light nav ul {
-    background-color: #d5d5d5;
-  }
-
-  body.light nav ul li a {
-    color: #121212;
-  }
-
-  body.light nav ul li a:hover {
-    background-color: #c0c0c0;
-  }
-
-  body.light .producto {
-    background-color: #f0f0f0;
-  }
-
-  body.light footer {
-    background-color: #e0e0e0;
-  }
-</style>
+        #chatbot form button:hover {
+            background: #1ebe54;
+        }
+    </style>
 </head>
 <body>
 
-<header>
-  <h1>Black Brand</h1>
-  <button id="toggle-dark" aria-label="Cambiar tema">🌙</button>
-</header>
+    <header>
+        <h1>Black Brand</h1> 
+        <button id="toggle-dark" aria-label="Cambiar tema">🌙</button>
+    </header>
 
-<nav>
-  <ul>
-    <li><a href="#sobre">Sobre Nosotros</a></li>
-    <li><a href="#productos">Productos</a></li>
-    <li><a href="#contacto">Contacto</a></li>
-  </ul>
-</nav>
+    <nav>
+        <ul>
+            <li><a href="#sobre">Sobre Nosotros</a></li>
+            <li><a href="#productos">Productos</a></li>
+            <li><a href="#contacto">Contacto</a></li>
+        </ul>
+    </nav>
 
-<section class="hero">
-  <h1>Bueno, Bonito y Barato</h1>
-</section>
+    <section class="hero">
+        <h1>Bueno, Bonito y Barato</h1>
+    </section>
 
-<section id="sobre">
-  <h2>Sobre Nosotros</h2>
-  <p>Bienvenido a la Black Brand. 🚀</p>
-</section>
+    <section id="sobre">
+        <h2>Sobre Nosotros</h2>
+        <p>Bienvenido a la Black Brand. 🚀</p>
+    </section>
 
-<section id="productos">
-  <h2>Productos Destacados</h2>
-  <div class="productos">
-    <div class="producto">
-      <img src="https://images.unsplash.com/photo-1549924231-f129b911e442?auto=format&fit=crop&w=400&q=80" alt="Vaper 1" />
-      <p>Vaper 15k</p>
+    <section id="productos">
+        <h2>Productos Destacados</h2>
+        <div class="productos">
+            <div class="producto">
+                <img src="assets/vaper1.jpg" alt="Vaper 1">
+                <p>Vaper 15k</p>
+            </div>
+            <div class="producto">
+                <img src="assets/vaper2.jpg" alt="Vaper 2">
+                <p>Vaper 20k</p>
+            </div>
+            <div class="producto">
+                <img src="assets/vaper3.jpg" alt="Vaper 3">
+                <p>Vaper ????</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contacto">
+        <h2>Contacto</h2>
+        <p>¿Tienes dudas? Escríbenos directo al WhatsApp o síguenos en Instagram para más novedades.</p>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Black Brand. Todos los derechos reservados.</p>
+        <div class="redes-sociales">
+            <a href="https://www.instagram.com/black__brand" target="_blank" aria-label="Instagram">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg" alt="Instagram" style="width:28px;vertical-align:middle;">
+            </a>
+        </div>
+    </footer>
+
+    <!-- Botón WhatsApp Fijo -->
+    <a href="https://wa.me/34TU_NUMERO" class="boton-whatsapp-fijo" target="_blank" title="Habla con nosotros">💬</a>
+
+    <!-- Chatbot Boy -->
+    <div id="chatbot">
+        <header>
+            Boy Chat
+            <button id="close-chatbot" aria-label="Cerrar chat">×</button>
+        </header>
+        <div class="messages" id="messages"></div>
+        <form id="chat-form">
+            <input type="text" id="user-input" placeholder="Escribe algo..." autocomplete="off" required />
+            <button type="submit">Enviar</button>
+        </form>
     </div>
-    <div class="producto">
-      <img src="https://images.unsplash.com/photo-1575936123452-b67c3203c357?auto=format&fit=crop&w=400&q=80" alt="Vaper 2" />
-      <p>Vaper Pro</p>
-    </div>
-    <div class="producto">
-      <img src="https://images.unsplash.com/photo-1556909170-0f773a5f6c89?auto=format&fit=crop&w=400&q=80" alt="Vaper 3" />
-      <p>Vaper Max</p>
-    </div>
-  </div>
-</section>
 
-<section id="contacto">
-  <h2>Contacto</h2>
-  <p>Escríbenos por WhatsApp o síguenos en Instagram.</p>
-</section>
+    <script>
+        // Toggle tema oscuro/claro
+        const toggleBtn = document.getElementById('toggle-dark');
+        toggleBtn.addEventListener('click', () => {
+            document.body.classList.toggle('light');
+            toggleBtn.textContent = document.body.classList.contains('light') ? '🌞' : '🌙';
+        });
 
-<a href="https://wa.me/1234567890" target="_blank" class="boton-whatsapp-fijo" aria-label="Contactar por WhatsApp">📱</a>
+        // Chatbot boy básico
+        const chatbot = document.getElementById('chatbot');
+        const closeBtn = document.getElementById('close-chatbot');
+        const messagesContainer = document.getElementById('messages');
+        const chatForm = document.getElementById('chat-form');
+        const userInput = document.getElementById('user-input');
 
-<footer>
-  <p>© 2025 Black Brand. Todos los derechos reservados.</p>
-  <div class="redes-sociales">
-    <a href="https://instagram.com/tu_usuario" target="_blank" aria-label="Instagram">
-      <img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Instagram" />
-    </a>
-  </div>
-</footer>
+        closeBtn.addEventListener('click', () => {
+            chatbot.style.display = 'none';
+        });
 
-<script>
-  const toggleBtn = document.getElementById('toggle-dark');
-  toggleBtn.addEventListener('click', () => {
-    document.body.classList.toggle('light');
-    // Cambia icono entre luna y sol
-    if(document.body.classList.contains('light')) {
-      toggleBtn.textContent = '☀️';
-    } else {
-      toggleBtn.textContent = '🌙';
-    }
-  });
-</script>
+        function addMessage(text, sender) {
+            const msg = document.createElement('div');
+            msg.classList.add('message', sender);
+            msg.textContent = text;
+            messagesContainer.appendChild(msg);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function boyResponse(input) {
+            input = input.toLowerCase();
+
+            // Respuestas simples con humor y actitud
+            if(input.includes('hola')) return '¡Ey, qué pasa! Soy tu boy virtual, ¿en qué te ayudo?';
+            if(input.includes('precio')) return 'Los mejores vapers a precios que ni tu cartera sufre.';
+            if(input.includes('envío')) return 'Envío rápido, que ni pestañeas y ya lo tienes.';
+            if(input.includes('producto') || input.includes('vaper')) return 'Tenemos de todo, desde el básico al pro, para que vapees con estilo.';
+            if(input.includes('contacto')) return 'Si quieres hablar con alguien real, aquí está nuestro WhatsApp fijo. 💬';
+            if(input.includes('gracias')) return 'De nada, siempre al pie del cañón.';
+            if(input.includes('chiste')) return '¿Sabes por qué el vaper no puede mentir? Porque siempre se le ve el humo. 😂';
+            return 'Hmm, no pillé eso. ¿Me lo dices de nuevo o quieres un chiste?';
+        }
+
+        chatForm.addEventListener('submit', e => {
+            e.preventDefault();
+            const text = userInput.value.trim();
+            if(!text) return;
+
+            addMessage(text, 'user');
+            userInput.value = '';
+
+            setTimeout(() => {
+                addMessage(boyResponse(text), 'boy');
+            }, 600);
+        });
+
+        // Mensaje de bienvenida automático
+        window.onload = () => {
+            addMessage('¡Hola! Soy tu boy virtual. Escríbeme algo para empezar.', 'boy');
+        };
+    </script>
 
 </body>
 </html>
