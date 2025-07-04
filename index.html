@@ -2,244 +2,191 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Black Brand con Rasca y Chatbot</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Black Brand</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="css/styles.css">
   <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #121212;
-      color: #fff;
-      text-align: center;
-    }
-    header {
-      padding: 20px;
-      background: #1f1f1f;
-      font-size: 24px;
-    }
-    button {
-      padding: 10px 20px;
+    /* --- Rasca y Gana --- */
+    #rasca-btn {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background: #25D366;
+      color: #121212;
       border: none;
-      border-radius: 5px;
-      background: #ff007f;
-      color: white;
-      font-size: 16px;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 28px;
       cursor: pointer;
-      margin: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.5);
+      z-index: 11000;
     }
     #rasca-modal {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.8);
       display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-      flex-direction: column;
+      position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.7);
+      align-items: center; justify-content: center;
+      z-index: 12000;
+    }
+    #rasca-content {
+      background: #25D366;
+      color: #121212;
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
     }
     #rasca-canvas {
-      border: 2px solid #fff;
-      margin-bottom: 15px;
-      touch-action: none;
-    }
-    #rasca-message {
-      font-size: 18px;
-      color: #0f0;
-      margin-bottom: 15px;
-    }
-    #chatbot {
-      position: fixed;
-      bottom: 80px;
-      right: 20px;
-      width: 300px;
-      height: 400px;
-      background: #fff;
-      border-radius: 10px;
-      overflow: hidden;
-      display: none;
-      flex-direction: column;
-      box-shadow: 0 0 10px rgba(0,0,0,0.5);
-      z-index: 9999;
-    }
-    #chatbot iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-    .boton-flotante {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: #25D366;
-      color: white;
-      border-radius: 50%;
-      width: 60px;
-      height: 60px;
-      font-size: 30px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      background: #888;
+      border-radius: 12px;
       cursor: pointer;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-      z-index: 9999;
+      margin: 15px 0;
     }
-    .whatsapp {
-      background: #25D366;
-      position: fixed;
-      bottom: 20px;
-      left: 20px;
-      border-radius: 50%;
-      width: 60px;
-      height: 60px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 30px;
-      text-decoration: none;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-      z-index: 9999;
-    }
+    #close-rasca { margin-top: 10px; }
+
+    /* Adaptaciones generales */
+    .whatsapp { display: none; } /* ya tienes botón en header */
   </style>
 </head>
 <body>
 
-  <header>Bienvenido a Black Brand</header>
+  <header>
+    <h1>Black Brand</h1>
+    <div id="header-buttons">
+      <button id="toggle-dark">🌙</button>
+      <button id="rasca-btn" title="Rasca y Gana">🎉</button>
+      <a href="https://wa.me/34TU_NUMERO" id="boton-whatsapp-header" target="_blank">💬</a>
+    </div>
+  </header>
 
-  <button id="rasca-btn">🎁 Rasca y Gana</button>
+  <nav>
+    <ul>
+      <li><a href="#sobre">Sobre Nosotros</a></li>
+      <li><a href="#productos">Productos</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+  </nav>
 
+  <section class="hero">
+    <h1>Bueno, Bonito y Barato</h1>
+  </section>
+
+  <section id="sobre">
+    <h2>Sobre Nosotros</h2>
+    <p>Bienvenido a la Black Brand. 🚀</p>
+  </section>
+
+  <section id="productos">
+    <h2>Productos Destacados</h2>
+    <div class="productos">
+      <div class="producto"><img src="assets/vaper1.jpg" alt=""><p>Vaper 15k</p></div>
+      <div class="producto"><img src="assets/vaper2.jpg" alt=""><p>Vaper 20k</p></div>
+      <div class="producto"><img src="assets/vaper3.jpg" alt=""><p>Vaper ????</p></div>
+    </div>
+  </section>
+
+  <section id="contacto">
+    <h2>Contacto</h2>
+    <p>¿Tienes dudas? Escríbenos por WhatsApp o síguenos en Instagram.</p>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Black Brand</p>
+    <div class="redes-sociales">
+      <a href="https://www.instagram.com/black__brand" target="_blank">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg" alt="" width="28">
+      </a>
+    </div>
+  </footer>
+
+  <!-- Rasca y Gana -->
   <div id="rasca-modal">
-    <canvas id="rasca-canvas" width="300" height="150"></canvas>
-    <div id="rasca-message"></div>
-    <button id="close-rasca">Cerrar</button>
+    <div id="rasca-content">
+      <h2>¡Rasca y Gana!</h2>
+      <canvas id="rasca-canvas" width="260" height="120"></canvas>
+      <p id="rasca-message"></p>
+      <button id="close-rasca">Cerrar</button>
+    </div>
   </div>
 
   <!-- Chatbot -->
-  <div id="chatbot">
-    <iframe src="https://example.com/tu-chatbot" title="Chatbot"></iframe>
+  <button id="open-chatbot-btn" style="position:fixed; bottom:20px; right:20px; z-index:11000;">💬</button>
+  <div id="chatbot" style="display:none; position:fixed; bottom:80px; right:20px; width:320px; height:400px; background:#1f1f1f; color:#eee; border-radius:12px; overflow:hidden; z-index:11000;">
+    <div style="padding:10px; background:#222; display:flex; justify-content:space-between; align-items:center;">
+      <span>BlackBot Chat</span>
+      <button id="close-chatbot">×</button>
+    </div>
+    <div class="messages" style="padding:10px; flex:1; overflow:auto;"></div>
+    <form id="chat-form" style="display:flex; border-top:1px solid #333; background:#222;">
+      <input id="user-input" style="flex:1; padding:10px; background:#121212; color:#eee; border:none;" placeholder="Escribe..." required>
+      <button type="submit" style="background:#25D366; border:none; color:#121212; padding:0 20px;">Enviar</button>
+    </form>
   </div>
 
-  <!-- Botón para abrir chatbot -->
-  <div class="boton-flotante" id="chatbot-toggle">💬</div>
+<script>
+  // Rasca y Gana
+  const rb = document.getElementById('rasca-btn'),
+        modal = document.getElementById('rasca-modal'),
+        canvas = document.getElementById('rasca-canvas'),
+        msg = document.getElementById('rasca-message'),
+        closeR = document.getElementById('close-rasca'),
+        ctx = canvas.getContext('2d');
+  let drawing = false, last = null;
 
-  <!-- Botón WhatsApp -->
-  <a href="https://wa.me/549XXXXXXXXXX" class="whatsapp" target="_blank">📞</a>
+  function init() {
+    ctx.fillStyle = '#888';
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+    ctx.globalCompositeOperation = 'destination-out';
+    ctx.font='24px Arial';
+    ctx.fillStyle='#121212';
+    ctx.textAlign='center';
+    ctx.fillText('¡10% OFF!', canvas.width/2, canvas.height/2+10);
+    ctx.globalCompositeOperation='source-over';
+    msg.textContent='';
+  }
+  function scratch(x,y){ ctx.beginPath(); ctx.arc(x,y,15,0,2*Math.PI); ctx.fill(); }
+  function pct(){
+    const d=ctx.getImageData(0,0,canvas.width,canvas.height).data, tot = d.length/4, c=d.filter((v,i)=>i%4==3&&v===0).length;
+    return (c/tot)*100;
+  }
+  function down(e){ drawing=true; last=getPos(e); scratch(last.x,last.y); }
+  function move(e){
+    if(!drawing) return;
+    const p=getPos(e), dist=Math.hypot(p.x-last.x,p.y-last.y);
+    let a=Math.atan2(p.y-last.y,p.x-last.x);
+    for(let i=0;i<dist;i+=5) scratch(last.x+Math.cos(a)*i,last.y+Math.sin(a)*i);
+    last=p;
+    if(pct()>40){ msg.textContent='¡Felicidades! Tu descuento está activo 🎉'; drawing=false; }
+  }
+  function up(){ drawing=false; }
+  function getPos(e){ const r=canvas.getBoundingClientRect(); return {x:(e.clientX||e.touches[0].clientX)-r.left,y:(e.clientY||e.touches[0].clientY)-r.top}; }
 
-  <script>
-    // Rasca y Gana
-    const rascaModal = document.getElementById('rasca-modal');
-    const rascaCanvas = document.getElementById('rasca-canvas');
-    const ctx = rascaCanvas.getContext('2d');
-    const rascaMessage = document.getElementById('rasca-message');
-    const closeRascaBtn = document.getElementById('close-rasca');
-    const openRascaBtn = document.getElementById('rasca-btn');
+  rb.onclick = () => { modal.style.display='flex'; init(); canvas.addEventListener('pointerdown',down); canvas.addEventListener('pointermove',move); canvas.addEventListener('pointerup',up); canvas.addEventListener('pointerleave',up); };
+  closeR.onclick = () => { modal.style.display='none'; };
 
-    let isDrawing = false;
-    let lastPoint = null;
-
-    function distanceBetween(p1, p2) {
-      return Math.hypot(p2.x - p1.x, p2.y - p1.y);
-    }
-
-    function getMousePos(canvas, evt) {
-      const rect = canvas.getBoundingClientRect();
-      return {
-        x: (evt.clientX || evt.touches?.[0]?.clientX) - rect.left,
-        y: (evt.clientY || evt.touches?.[0]?.clientY) - rect.top
-      };
-    }
-
-    function initCanvas() {
-      ctx.fillStyle = '#888';
-      ctx.fillRect(0, 0, rascaCanvas.width, rascaCanvas.height);
-      ctx.font = '24px Arial';
-      ctx.fillStyle = '#121212';
-      ctx.textAlign = 'center';
-      ctx.fillText('¡Ganaste 10% OFF!', rascaCanvas.width / 2, rascaCanvas.height / 2 + 10);
-    }
-
-    function scratch(x, y) {
-      ctx.globalCompositeOperation = 'destination-out';
-      ctx.beginPath();
-      ctx.arc(x, y, 15, 0, Math.PI * 2, false);
-      ctx.fill();
-      ctx.closePath();
-      ctx.globalCompositeOperation = 'source-over';
-    }
-
-    function getScratchedPercent() {
-      const imageData = ctx.getImageData(0, 0, rascaCanvas.width, rascaCanvas.height);
-      let total = imageData.data.length / 4;
-      let count = 0;
-      for (let i = 3; i < imageData.data.length; i += 4) {
-        if (imageData.data[i] === 0) count++;
-      }
-      return (count / total) * 100;
-    }
-
-    function onPointerDown(evt) {
-      isDrawing = true;
-      lastPoint = getMousePos(rascaCanvas, evt);
-      scratch(lastPoint.x, lastPoint.y);
-    }
-
-    function onPointerMove(evt) {
-      if (!isDrawing) return;
-      evt.preventDefault();
-      const currentPoint = getMousePos(rascaCanvas, evt);
-      const dist = distanceBetween(lastPoint, currentPoint);
-      const angle = Math.atan2(currentPoint.y - lastPoint.y, currentPoint.x - lastPoint.x);
-
-      for (let i = 0; i < dist; i += 5) {
-        const x = lastPoint.x + Math.cos(angle) * i;
-        const y = lastPoint.y + Math.sin(angle) * i;
-        scratch(x, y);
-      }
-
-      lastPoint = currentPoint;
-
-      if (getScratchedPercent() > 40) {
-        rascaMessage.textContent = '¡Felicidades! Tu descuento está activo. 🎉';
-        rascaCanvas.removeEventListener('pointerdown', onPointerDown);
-        rascaCanvas.removeEventListener('pointermove', onPointerMove);
-        rascaCanvas.removeEventListener('pointerup', onPointerUp);
-      }
-    }
-
-    function onPointerUp() {
-      isDrawing = false;
-    }
-
-    openRascaBtn.addEventListener('click', () => {
-      rascaModal.style.display = 'flex';
-      rascaMessage.textContent = '';
-      initCanvas();
-      rascaCanvas.addEventListener('pointerdown', onPointerDown);
-      rascaCanvas.addEventListener('pointermove', onPointerMove);
-      rascaCanvas.addEventListener('pointerup', onPointerUp);
-      rascaCanvas.addEventListener('pointerleave', onPointerUp);
-    });
-
-    closeRascaBtn.addEventListener('click', () => {
-      rascaModal.style.display = 'none';
-      rascaCanvas.removeEventListener('pointerdown', onPointerDown);
-      rascaCanvas.removeEventListener('pointermove', onPointerMove);
-      rascaCanvas.removeEventListener('pointerup', onPointerUp);
-      rascaCanvas.removeEventListener('pointerleave', onPointerUp);
-    });
-
-    // Chatbot Toggle
-    const chatbotToggle = document.getElementById('chatbot-toggle');
-    const chatbot = document.getElementById('chatbot');
-
-    chatbotToggle.addEventListener('click', () => {
-      chatbot.style.display = chatbot.style.display === 'flex' ? 'none' : 'flex';
-    });
-  </script>
+  // Chatbot show/hide
+  const oc = document.getElementById('open-chatbot-btn'),
+        cc = document.getElementById('close-chatbot'),
+        ch = document.getElementById('chatbot'),
+        form = document.getElementById('chat-form'),
+        msgs = document.querySelector('.messages'),
+        inp = document.getElementById('user-input');
+  oc.onclick = () => { ch.style.display='flex'; oc.style.display='none'; };
+  cc.onclick = () => { ch.style.display='none'; oc.style.display='block'; msgs.innerHTML=''; };
+  form.onsubmit = e => {
+    e.preventDefault();
+    const t=inp.value.trim(); if(!t) return;
+    msgs.innerHTML += `<div style="text-align:right; background:#444; margin:5px; padding:8px; border-radius:8px;">${t}</div>`;
+    inp.value='';
+    setTimeout(() => msgs.innerHTML += `<div style="text-align:left; background:#25D366; margin:5px; padding:8px; border-radius:8px; color:#000;">Aquí BlackBot: ${t.split('').reverse().join('')}</div>`, 500);
+    msgs.scrollTop = msgs.scrollHeight;
+  };
+</script>
 
 </body>
 </html>
+
 
     </script>
 
