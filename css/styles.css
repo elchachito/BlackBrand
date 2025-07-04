@@ -133,6 +133,7 @@ footer {
 .redes-sociales a {
     color: #eee;
     transition: color 0.3s ease, transform 0.3s ease;
+    display: inline-block;
 }
 
 body.light .redes-sociales a {
@@ -148,13 +149,12 @@ body.light .redes-sociales a {
 .redes-sociales img {
     transition: transform 0.3s ease, filter 0.3s ease;
     cursor: pointer;
+    vertical-align: middle;
 }
 
 .redes-sociales img:hover {
     transform: rotate(15deg) scale(1.2);
     filter: brightness(1.2);
-}
-
 }
 
 @media (max-width: 768px) {
