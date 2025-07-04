@@ -4,60 +4,143 @@
   <meta charset="UTF-8">
   <title>Black Brand</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="css/styles.css">
   <style>
-    /* --- Rasca y Gana --- */
-    #rasca-btn {
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      background: #25D366;
-      color: #121212;
-      border: none;
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      font-size: 28px;
-      cursor: pointer;
-      box-shadow: 0 0 15px rgba(0,0,0,0.5);
-      z-index: 11000;
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #121212;
+      color: #eee;
+      transition: background 0.3s, color 0.3s;
     }
-    #rasca-modal {
-      display: none;
-      position: fixed; top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.7);
-      align-items: center; justify-content: center;
-      z-index: 12000;
+    header {
+      background: #1f1f1f;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
-    #rasca-content {
-      background: #25D366;
-      color: #121212;
-      border-radius: 16px;
+    header h1 { margin: 0; font-size: 24px; }
+    nav ul {
+      display: flex;
+      list-style: none;
+      margin: 0;
+      padding: 10px;
+      background: #222;
+      justify-content: center;
+    }
+    nav li { margin: 0 15px; }
+    nav a { color: inherit; text-decoration: none; }
+    section { padding: 40px 20px; text-align: center; }
+    footer {
+      background: #1f1f1f;
       padding: 20px;
       text-align: center;
     }
-    #rasca-canvas {
-      background: #888;
-      border-radius: 12px;
-      cursor: pointer;
-      margin: 15px 0;
+    .productos {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
     }
-    #close-rasca { margin-top: 10px; }
+    .producto {
+      background: #1f1f1f;
+      padding: 10px;
+      border-radius: 8px;
+      width: 160px;
+    }
+    .producto img {
+      width: 100%;
+      border-radius: 6px;
+    }
 
-    /* Adaptaciones generales */
-    .whatsapp { display: none; } /* ya tienes botón en header */
+    /* Chatbot */
+    #open-chatbot-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 11000;
+      background: #25D366;
+      border: none;
+      border-radius: 50%;
+      padding: 15px;
+      font-size: 24px;
+      color: #121212;
+      cursor: pointer;
+    }
+    #chatbot {
+      display: none;
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      width: 320px;
+      height: 400px;
+      background: #1f1f1f;
+      color: #eee;
+      border-radius: 12px;
+      overflow: hidden;
+      z-index: 11000;
+      box-shadow: 0 0 10px #000;
+      flex-direction: column;
+    }
+    #chatbot .messages {
+      padding: 10px;
+      height: 300px;
+      overflow-y: auto;
+    }
+    #chatbot form {
+      display: flex;
+      border-top: 1px solid #333;
+      background: #222;
+    }
+    #chatbot input {
+      flex: 1;
+      padding: 10px;
+      background: #121212;
+      color: #eee;
+      border: none;
+    }
+    #chatbot button {
+      background: #25D366;
+      border: none;
+      color: #121212;
+      padding: 0 20px;
+    }
+
+    /* Botón WhatsApp Fijo */
+    .whatsapp-btn {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background: #25D366;
+      color: #fff;
+      padding: 12px 16px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-size: 18px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.5);
+      z-index: 9999;
+    }
+
+    /* Modo Claro */
+    body.claro {
+      background: #f5f5f5;
+      color: #121212;
+    }
+    body.claro header, body.claro footer, body.claro .producto, body.claro nav ul, body.claro #chatbot {
+      background: #ddd;
+      color: #121212;
+    }
+    body.claro #chatbot input {
+      background: #eee;
+      color: #121212;
+    }
   </style>
 </head>
 <body>
 
   <header>
     <h1>Black Brand</h1>
-    <div id="header-buttons">
-      <button id="toggle-dark">🌙</button>
-      <button id="rasca-btn" title="Rasca y Gana">🎉</button>
-      <a href="https://wa.me/34TU_NUMERO" id="boton-whatsapp-header" target="_blank">💬</a>
-    </div>
+    <button id="toggle-mode-btn">🌙</button>
   </header>
 
   <nav>
@@ -100,95 +183,53 @@
     </div>
   </footer>
 
-  <!-- Rasca y Gana -->
-  <div id="rasca-modal">
-    <div id="rasca-content">
-      <h2>¡Rasca y Gana!</h2>
-      <canvas id="rasca-canvas" width="260" height="120"></canvas>
-      <p id="rasca-message"></p>
-      <button id="close-rasca">Cerrar</button>
-    </div>
-  </div>
+  <!-- Botón Fijo de WhatsApp -->
+  <a class="whatsapp-btn" href="https://wa.me/34TU_NUMERO" target="_blank">💬 WhatsApp</a>
 
   <!-- Chatbot -->
-  <button id="open-chatbot-btn" style="position:fixed; bottom:20px; right:20px; z-index:11000;">💬</button>
-  <div id="chatbot" style="display:none; position:fixed; bottom:80px; right:20px; width:320px; height:400px; background:#1f1f1f; color:#eee; border-radius:12px; overflow:hidden; z-index:11000;">
+  <button id="open-chatbot-btn">🤖</button>
+  <div id="chatbot">
     <div style="padding:10px; background:#222; display:flex; justify-content:space-between; align-items:center;">
       <span>BlackBot Chat</span>
-      <button id="close-chatbot">×</button>
+      <button id="close-chatbot" style="background:none; border:none; color:#eee; font-size:20px;">×</button>
     </div>
-    <div class="messages" style="padding:10px; flex:1; overflow:auto;"></div>
-    <form id="chat-form" style="display:flex; border-top:1px solid #333; background:#222;">
-      <input id="user-input" style="flex:1; padding:10px; background:#121212; color:#eee; border:none;" placeholder="Escribe..." required>
-      <button type="submit" style="background:#25D366; border:none; color:#121212; padding:0 20px;">Enviar</button>
+    <div class="messages"></div>
+    <form id="chat-form">
+      <input id="user-input" placeholder="Escribe..." required>
+      <button type="submit">Enviar</button>
     </form>
   </div>
 
-<script>
-  // Rasca y Gana
-  const rb = document.getElementById('rasca-btn'),
-        modal = document.getElementById('rasca-modal'),
-        canvas = document.getElementById('rasca-canvas'),
-        msg = document.getElementById('rasca-message'),
-        closeR = document.getElementById('close-rasca'),
-        ctx = canvas.getContext('2d');
-  let drawing = false, last = null;
+  <script>
+    // Chatbot
+    const oc = document.getElementById('open-chatbot-btn'),
+          cc = document.getElementById('close-chatbot'),
+          ch = document.getElementById('chatbot'),
+          form = document.getElementById('chat-form'),
+          msgs = document.querySelector('.messages'),
+          inp = document.getElementById('user-input');
 
-  function init() {
-    ctx.fillStyle = '#888';
-    ctx.fillRect(0,0,canvas.width,canvas.height);
-    ctx.globalCompositeOperation = 'destination-out';
-    ctx.font='24px Arial';
-    ctx.fillStyle='#121212';
-    ctx.textAlign='center';
-    ctx.fillText('¡10% OFF!', canvas.width/2, canvas.height/2+10);
-    ctx.globalCompositeOperation='source-over';
-    msg.textContent='';
-  }
-  function scratch(x,y){ ctx.beginPath(); ctx.arc(x,y,15,0,2*Math.PI); ctx.fill(); }
-  function pct(){
-    const d=ctx.getImageData(0,0,canvas.width,canvas.height).data, tot = d.length/4, c=d.filter((v,i)=>i%4==3&&v===0).length;
-    return (c/tot)*100;
-  }
-  function down(e){ drawing=true; last=getPos(e); scratch(last.x,last.y); }
-  function move(e){
-    if(!drawing) return;
-    const p=getPos(e), dist=Math.hypot(p.x-last.x,p.y-last.y);
-    let a=Math.atan2(p.y-last.y,p.x-last.x);
-    for(let i=0;i<dist;i+=5) scratch(last.x+Math.cos(a)*i,last.y+Math.sin(a)*i);
-    last=p;
-    if(pct()>40){ msg.textContent='¡Felicidades! Tu descuento está activo 🎉'; drawing=false; }
-  }
-  function up(){ drawing=false; }
-  function getPos(e){ const r=canvas.getBoundingClientRect(); return {x:(e.clientX||e.touches[0].clientX)-r.left,y:(e.clientY||e.touches[0].clientY)-r.top}; }
+    oc.onclick = () => { ch.style.display = 'flex'; oc.style.display = 'none'; };
+    cc.onclick = () => { ch.style.display = 'none'; oc.style.display = 'block'; msgs.innerHTML = ''; };
+    form.onsubmit = e => {
+      e.preventDefault();
+      const t = inp.value.trim();
+      if (!t) return;
+      msgs.innerHTML += `<div style="text-align:right; background:#444; margin:5px; padding:8px; border-radius:8px;">${t}</div>`;
+      inp.value = '';
+      setTimeout(() => {
+        msgs.innerHTML += `<div style="text-align:left; background:#25D366; margin:5px; padding:8px; border-radius:8px; color:#000;">Aquí BlackBot: ${t.split('').reverse().join('')}</div>`;
+        msgs.scrollTop = msgs.scrollHeight;
+      }, 500);
+    };
 
-  rb.onclick = () => { modal.style.display='flex'; init(); canvas.addEventListener('pointerdown',down); canvas.addEventListener('pointermove',move); canvas.addEventListener('pointerup',up); canvas.addEventListener('pointerleave',up); };
-  closeR.onclick = () => { modal.style.display='none'; };
-
-  // Chatbot show/hide
-  const oc = document.getElementById('open-chatbot-btn'),
-        cc = document.getElementById('close-chatbot'),
-        ch = document.getElementById('chatbot'),
-        form = document.getElementById('chat-form'),
-        msgs = document.querySelector('.messages'),
-        inp = document.getElementById('user-input');
-  oc.onclick = () => { ch.style.display='flex'; oc.style.display='none'; };
-  cc.onclick = () => { ch.style.display='none'; oc.style.display='block'; msgs.innerHTML=''; };
-  form.onsubmit = e => {
-    e.preventDefault();
-    const t=inp.value.trim(); if(!t) return;
-    msgs.innerHTML += `<div style="text-align:right; background:#444; margin:5px; padding:8px; border-radius:8px;">${t}</div>`;
-    inp.value='';
-    setTimeout(() => msgs.innerHTML += `<div style="text-align:left; background:#25D366; margin:5px; padding:8px; border-radius:8px; color:#000;">Aquí BlackBot: ${t.split('').reverse().join('')}</div>`, 500);
-    msgs.scrollTop = msgs.scrollHeight;
-  };
-</script>
-
-</body>
-</html>
-
-
-    </script>
+    // Modo Claro/Oscuro
+    const btnModo = document.getElementById('toggle-mode-btn');
+    btnModo.onclick = () => {
+      document.body.classList.toggle('claro');
+      btnModo.textContent = document.body.classList.contains('claro') ? '🌞' : '🌙';
+    };
+  </script>
 
 </body>
 </html>
