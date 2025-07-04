@@ -144,6 +144,19 @@ body.light .redes-sociales a {
     transform: scale(1.2);
 }
 
+/* Trozo nuevo para animar el logo de Instagram en el footer */
+.redes-sociales img {
+    transition: transform 0.3s ease, filter 0.3s ease;
+    cursor: pointer;
+}
+
+.redes-sociales img:hover {
+    transform: rotate(15deg) scale(1.2);
+    filter: brightness(1.2);
+}
+
+}
+
 @media (max-width: 768px) {
     .productos {
         flex-direction: column;
