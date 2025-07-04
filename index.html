@@ -156,6 +156,23 @@
             top: 6px;
             right: 10px;
         }
+
+        /* Botón para abrir el chatbot */
+        #open-chatbot-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #25D366;
+            color: #121212;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(0,0,0,0.5);
+            z-index: 10500;
+        }
     </style>
 </head>
 <body>
@@ -217,8 +234,11 @@
     <!-- Botón WhatsApp Fijo -->
     <a href="https://wa.me/34TU_NUMERO" class="boton-whatsapp-fijo" target="_blank" title="Habla con nosotros">💬</a>
 
+    <!-- Botón para abrir chatbot -->
+    <button id="open-chatbot-btn" aria-label="Abrir chat BlackBot">💬</button>
+
     <!-- Chatbot BlackBot -->
-    <div id="chatbot" role="region" aria-label="Chatbot BlackBot">
+    <div id="chatbot" role="region" aria-label="Chatbot BlackBot" style="display:none;">
         <header>
             BlackBot Chat
             <button id="close-chatbot" aria-label="Cerrar chat">×</button>
@@ -248,6 +268,7 @@
         // Variables BlackBot
         const chatbot = document.getElementById('chatbot');
         const closeBtn = document.getElementById('close-chatbot');
+        const openBtn = document.getElementById('open-chatbot-btn');
         const messagesContainer = document.getElementById('messages');
         const chatForm = document.getElementById('chat-form');
         const userInput = document.getElementById('user-input');
@@ -354,6 +375,14 @@
         // Cerrar chat
         closeBtn.addEventListener('click', () => {
             chatbot.style.display = 'none';
+            openBtn.style.display = 'block';
+        });
+
+        // Abrir chat
+        openBtn.addEventListener('click', () => {
+            chatbot.style.display = 'flex';
+            openBtn.style.display = 'none';
+            userInput.focus();
         });
 
         // Toggle voz
@@ -365,7 +394,7 @@
             if(!voiceOn) speechSynthesis.cancel();
         });
 
-        // Mensaje bienvenida
+        // Mensaje bienvenida y popup
         window.onload = () => {
             addMessage('¡Hola! Soy BlackBot. Escríbeme algo para empezar.', 'blackbot');
 
@@ -380,15 +409,21 @@
                 popup.style.visibility = 'visible';
                 popup.style.opacity = '1';
             }
-
-            document.getElementById('cerrar-oferta').onclick = () => {
-                popup.style.opacity = '0';
-                setTimeout(() => {
-                    popup.style.visibility = 'hidden';
-                }, 300);
-                localStorage.setItem('ofertaCerrada', 'true');
-            }
         };
+
+        // Cerrar popup oferta
+        document.getElementById('cerrar-oferta').addEventListener('click', () => {
+            const popup = document.getElementById('oferta-popup');
+            popup.style.opacity = '0';
+            setTimeout(() => {
+                popup.style.visibility = 'hidden';
+            }, 300);
+            localStorage.setItem('ofertaCerrada', 'true');
+        });
+    </script>
+</body>
+</html>
+
     </script>
 
 </body>
