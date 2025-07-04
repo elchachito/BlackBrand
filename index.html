@@ -1,560 +1,242 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Black Brand con BlackBot</title>
-    <link rel="stylesheet" href="css/styles.css" />
-   
-    <style>
-        /* Estilos básicos para el chatbot */
-        #chatbot {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 320px;
-            max-width: 90vw;
-            background: #1f1f1f;
-            border-radius: 12px;
-            box-shadow: 0 0 15px rgba(0,0,0,0.5);
-            color: #eee;
-            font-family: 'Poppins', sans-serif;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            z-index: 10000;
-        }
-
-        #chatbot header {
-            background: #222;
-            padding: 12px 16px;
-            font-weight: 700;
-            font-size: 1.1rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        #chatbot header button {
-            background: none;
-            border: none;
-            color: #eee;
-            font-size: 1.5rem;
-            cursor: pointer;
-            line-height: 1;
-        }
-
-        #chatbot .messages {
-            flex-grow: 1;
-            padding: 12px;
-            overflow-y: auto;
-            background: #121212;
-        }
-
-        #chatbot .message {
-            margin-bottom: 12px;
-            line-height: 1.3;
-            max-width: 80%;
-            word-wrap: break-word;
-        }
-
-        #chatbot .message.blackbot {
-            background: #25D366;
-            color: #121212;
-            padding: 8px 12px;
-            border-radius: 16px 16px 16px 0;
-            align-self: flex-start;
-            font-weight: 600;
-        }
-
-        #chatbot .message.user {
-            background: #444;
-            color: #eee;
-            padding: 8px 12px;
-            border-radius: 16px 16px 0 16px;
-            align-self: flex-end;
-            font-weight: 700;
-        }
-
-        #chatbot form {
-            display: flex;
-            border-top: 1px solid #333;
-            background: #222;
-        }
-
-        #chatbot form input {
-            flex-grow: 1;
-            border: none;
-            padding: 12px 16px;
-            font-size: 1rem;
-            background: #121212;
-            color: #eee;
-        }
-
-        #chatbot form button {
-            background: #25D366;
-            border: none;
-            padding: 0 20px;
-            cursor: pointer;
-            color: #121212;
-            font-weight: 700;
-            font-size: 1rem;
-            transition: background-color 0.3s ease;
-        }
-
-        #chatbot form button:hover {
-            background: #1ebe54;
-        }
-
-        /* Botón toggle voz */
-        #voice-toggle {
-            background: #25D366;
-            border: none;
-            color: #121212;
-            font-weight: 700;
-            font-size: 0.9rem;
-            padding: 6px;
-            cursor: pointer;
-            width: 100%;
-            border-radius: 0 0 12px 12px;
-            user-select: none;
-            transition: background-color 0.3s ease;
-        }
-
-        #voice-toggle.off {
-            background: #555;
-            color: #ccc;
-        }
-
-        /* Estilos popup oferta */
-        #oferta-popup {
-            position: fixed;
-            bottom: 100px;
-            right: 20px;
-            background: #25D366;
-            color: #121212;
-            padding: 15px 20px;
-            border-radius: 12px;
-            box-shadow: 0 0 15px rgba(0,0,0,0.4);
-            font-weight: 700;
-            font-family: 'Poppins', sans-serif;
-            cursor: default;
-            visibility: hidden;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            z-index: 11000;
-            max-width: 280px;
-        }
-
-        #oferta-popup button {
-            background: transparent;
-            border: none;
-            font-size: 1.2rem;
-            color: #121212;
-            font-weight: 900;
-            cursor: pointer;
-            position: absolute;
-            top: 6px;
-            right: 10px;
-        }
-
-        /* Botón para abrir el chatbot: fijo esquina izquierda */
-        #open-chatbot-btn {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            background: #25D366;
-            color: #121212;
-            border: none;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            font-size: 24px;
-            cursor: pointer;
-            box-shadow: 0 0 15px rgba(0,0,0,0.5);
-            z-index: 10500;
-        }
-
-        
-        /* Rascaygana botón arriba izquierda */
-        #rasca-btn {
-          position: fixed;
-          top: 20px;
-          left: 20px;
-          background: #25D366;
-          color: #121212;
-          border: none;
-          border-radius: 50%;
-          width: 50px;
-          height: 50px;
-          font-size: 28px;
-          cursor: pointer;
-          box-shadow: 0 0 15px rgba(0,0,0,0.5);
-          z-index: 11000;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          user-select: none;
-        }
-
-        /* Popup rasca y gana */
-        #rasca-popup {
-          position: fixed;
-          top: 80px;
-          left: 20px;
-          background: #25D366;
-          color: #121212;
-          padding: 15px 20px;
-          border-radius: 12px;
-          box-shadow: 0 0 15px rgba(0,0,0,0.4);
-          font-weight: 700;
-          font-family: 'Poppins', sans-serif;
-          cursor: default;
-          visibility: hidden;
-          opacity: 0;
-          transition: opacity 0.3s ease;
-          z-index: 11000;
-          max-width: 280px;
-        }
-
-        #rasca-popup button {
-          background: transparent;
-          border: none;
-          font-size: 1.2rem;
-          color: #121212;
-          font-weight: 900;
-          cursor: pointer;
-          position: absolute;
-          top: 6px;
-          right: 10px;
-        }
-        <!-- Modalidad Rasca y Gana  -->
-<div id="rasca-modal" aria-hidden="true" style="display:none;">
-  <div id="rasca-overlay" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.6);z-index:12000;"></div>
-  <div id="rasca-card" role="dialog" aria-modal="true" aria-labelledby="rasca-title" style="position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);
-    background:#25D366;color:#121212;padding:20px;border-radius:16px;box-shadow:0 0 15px rgba(0,0,0,0.5);z-index:12001;width:300px;text-align:center;">
-    <h2 id="rasca-title">¡Rasca y Gana!</h2>
-    <canvas id="rasca-canvas" width="260" height="120" style="border-radius:12px;cursor:pointer;"></canvas>
-    <p id="rasca-message" style="margin-top:15px; font-weight:700;"></p>
-    <button id="close-rasca" style="margin-top:15px;padding:8px 20px;border:none;border-radius:8px;cursor:pointer;background:#121212;color:#eee;">Cerrar</button>
-  </div>
-</div>
-        const rascaModal = document.getElementById('rasca-modal');
-const rascaCanvas = document.getElementById('rasca-canvas');
-const ctx = rascaCanvas.getContext('2d');
-const rascaMessage = document.getElementById('rasca-message');
-const closeRascaBtn = document.getElementById('close-rasca');
-const rascaOverlay = document.getElementById('rasca-overlay');
-
-const openRascaBtn = document.getElementById('boton-whatsapp-header');
-
-let isDrawing = false;
-let lastPoint = null;
-
-function distanceBetween(point1, point2) {
-    return Math.sqrt(
-        Math.pow(point2.x - point1.x, 2) + Math.pow(point2.y - point1.y, 2)
-    );
-}
-
-function getMousePos(canvas, evt) {
-    const rect = canvas.getBoundingClientRect();
-    return {
-        x: (evt.clientX || evt.touches[0].clientX) - rect.left,
-        y: (evt.clientY || evt.touches[0].clientY) - rect.top
-    };
-}
-
-function initCanvas() {
-    // Capa para rascar (gris)
-    ctx.fillStyle = '#888';
-    ctx.fillRect(0, 0, rascaCanvas.width, rascaCanvas.height);
-
-    // Texto oculto debajo de la capa
-    ctx.font = '24px Arial';
-    ctx.fillStyle = '#121212';
-    ctx.textAlign = 'center';
-    ctx.fillText('¡Ganaste 10% de descuento!', rascaCanvas.width / 2, rascaCanvas.height / 2 + 10);
-}
-
-function scratch(x, y) {
-    ctx.globalCompositeOperation = 'destination-out';
-    ctx.beginPath();
-    ctx.arc(x, y, 15, 0, Math.PI * 2, false);
-    ctx.fill();
-    ctx.closePath();
-    ctx.globalCompositeOperation = 'source-over';
-}
-
-function getScratchedPercent() {
-    const imageData = ctx.getImageData(0, 0, rascaCanvas.width, rascaCanvas.height);
-    let total = imageData.data.length / 4;
-    let count = 0;
-    for (let i = 3; i < imageData.data.length; i += 4) {
-        if (imageData.data[i] === 0) count++;
+  <meta charset="UTF-8">
+  <title>Black Brand con Rasca y Chatbot</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #121212;
+      color: #fff;
+      text-align: center;
     }
-    return (count / total) * 100;
-}
-
-function onPointerDown(evt) {
-    isDrawing = true;
-    lastPoint = getMousePos(rascaCanvas, evt);
-    scratch(lastPoint.x, lastPoint.y);
-}
-
-function onPointerMove(evt) {
-    if (!isDrawing) return;
-    evt.preventDefault();
-    const currentPoint = getMousePos(rascaCanvas, evt);
-    const dist = distanceBetween(lastPoint, currentPoint);
-    const angle = Math.atan2(currentPoint.y - lastPoint.y, currentPoint.x - lastPoint.x);
-
-    for (let i = 0; i < dist; i += 5) {
-        const x = lastPoint.x + Math.cos(angle) * i;
-        const y = lastPoint.y + Math.sin(angle) * i;
-        scratch(x, y);
+    header {
+      padding: 20px;
+      background: #1f1f1f;
+      font-size: 24px;
     }
-
-    lastPoint = currentPoint;
-
-    if (getScratchedPercent() > 40) {
-        rascaMessage.textContent = '¡Felicidades! Tu descuento está activo. 🎉';
-        rascaCanvas.removeEventListener('pointerdown', onPointerDown);
-        rascaCanvas.removeEventListener('pointermove', onPointerMove);
-        rascaCanvas.removeEventListener('pointerup', () => { isDrawing = false; });
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      background: #ff007f;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      margin: 10px;
     }
-}
-
-function onPointerUp() {
-    isDrawing = false;
-}
-
-openRascaBtn.addEventListener('click', () => {
-    rascaModal.style.display = 'block';
-    rascaModal.setAttribute('aria-hidden', 'false');
-    rascaMessage.textContent = '';
-    initCanvas();
-
-    rascaCanvas.addEventListener('pointerdown', onPointerDown);
-    rascaCanvas.addEventListener('pointermove', onPointerMove);
-    rascaCanvas.addEventListener('pointerup', onPointerUp);
-    rascaCanvas.addEventListener('pointerleave', onPointerUp);
-});
-
-closeRascaBtn.addEventListener('click', () => {
-    rascaModal.style.display = 'none';
-    rascaModal.setAttribute('aria-hidden', 'true');
-    rascaCanvas.removeEventListener('pointerdown', onPointerDown);
-    rascaCanvas.removeEventListener('pointermove', onPointerMove);
-    rascaCanvas.removeEventListener('pointerup', onPointerUp);
-    rascaCanvas.removeEventListener('pointerleave', onPointerUp);
-});
-rascaOverlay.addEventListener('click', () => {
-    closeRascaBtn.click();
-});
-    </style>
+    #rasca-modal {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.8);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      flex-direction: column;
+    }
+    #rasca-canvas {
+      border: 2px solid #fff;
+      margin-bottom: 15px;
+      touch-action: none;
+    }
+    #rasca-message {
+      font-size: 18px;
+      color: #0f0;
+      margin-bottom: 15px;
+    }
+    #chatbot {
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      width: 300px;
+      height: 400px;
+      background: #fff;
+      border-radius: 10px;
+      overflow: hidden;
+      display: none;
+      flex-direction: column;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      z-index: 9999;
+    }
+    #chatbot iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    .boton-flotante {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #25D366;
+      color: white;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      font-size: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+      z-index: 9999;
+    }
+    .whatsapp {
+      background: #25D366;
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 30px;
+      text-decoration: none;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+      z-index: 9999;
+    }
+  </style>
 </head>
 <body>
 
-    <header>
-        <h1>Black Brand</h1>
-        <div id="header-buttons">
-            <button id="toggle-dark" aria-label="Cambiar tema">🌙</button>
-            <a href="https://wa.me/34TU_NUMERO" id="boton-whatsapp-header" target="_blank" title="Habla con nosotros" aria-label="WhatsApp">
-                💬 Whatsapp 
-            </a>
-        </div>
-    </header>
+  <header>Bienvenido a Black Brand</header>
 
-    <nav>
-        <ul>
-            <li><a href="#sobre">Sobre Nosotros</a></li>
-            <li><a href="#productos">Productos</a></li>
-            <li><a href="#contacto">Contacto</a></li>
-        </ul>
-    </nav>
+  <button id="rasca-btn">🎁 Rasca y Gana</button>
 
-    <section class="hero">
-        <h1>Bueno, Bonito y Barato</h1>
-    </section>
+  <div id="rasca-modal">
+    <canvas id="rasca-canvas" width="300" height="150"></canvas>
+    <div id="rasca-message"></div>
+    <button id="close-rasca">Cerrar</button>
+  </div>
 
-    <section id="sobre">
-        <h2>Sobre Nosotros</h2>
-        <p>Bienvenido a la Black Brand. 🚀</p>
-    </section>
+  <!-- Chatbot -->
+  <div id="chatbot">
+    <iframe src="https://example.com/tu-chatbot" title="Chatbot"></iframe>
+  </div>
 
-    <section id="productos">
-        <h2>Productos Destacados</h2>
-        <div class="productos">
-            <div class="producto">
-                <img src="assets/vaper1.jpg" alt="Vaper 1">
-                <p>Vaper 15k</p>
-            </div>
-            <div class="producto">
-                <img src="assets/vaper2.jpg" alt="Vaper 2">
-                <p>Vaper 20k</p>
-            </div>
-            <div class="producto">
-                <img src="assets/vaper3.jpg" alt="Vaper 3">
-                <p>Vaper ????</p>
-            </div>
-        </div>
-    </section>
+  <!-- Botón para abrir chatbot -->
+  <div class="boton-flotante" id="chatbot-toggle">💬</div>
 
-    <section id="contacto">
-        <h2>Contacto</h2>
-        <p>¿Tienes dudas? Escríbenos directo al WhatsApp o síguenos en Instagram para más novedades.</p>
-    </section>
+  <!-- Botón WhatsApp -->
+  <a href="https://wa.me/549XXXXXXXXXX" class="whatsapp" target="_blank">📞</a>
 
-    <footer>
-        <p>&copy; 2025 Black Brand. Todos los derechos reservados.</p>
-        <div class="redes-sociales">
-            <a href="https://www.instagram.com/black__brand" target="_blank" aria-label="Instagram">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg" alt="Instagram" style="width:28px;vertical-align:middle;">
-            </a>
-        </div>
-    </footer>
+  <script>
+    // Rasca y Gana
+    const rascaModal = document.getElementById('rasca-modal');
+    const rascaCanvas = document.getElementById('rasca-canvas');
+    const ctx = rascaCanvas.getContext('2d');
+    const rascaMessage = document.getElementById('rasca-message');
+    const closeRascaBtn = document.getElementById('close-rasca');
+    const openRascaBtn = document.getElementById('rasca-btn');
 
-    <!-- Botón para abrir chatbot -->
-    <button id="open-chatbot-btn" aria-label="Abrir chat BlackBot">💬</button>
+    let isDrawing = false;
+    let lastPoint = null;
 
-    <!-- Chatbot BlackBot -->
-    <div id="chatbot" role="region" aria-label="Chatbot BlackBot" style="display:none;">
-        <header>
-            BlackBot Chat
-            <button id="close-chatbot" aria-label="Cerrar chat">×</button>
-        </header>
-        <div class="messages" id="messages" aria-live="polite" aria-relevant="additions"></div>
-        <form id="chat-form" aria-label="Formulario para enviar mensajes al chatbot">
-            <input type="text" id="user-input" placeholder="Escribe algo..." autocomplete="off" required aria-required="true" />
-            <button type="submit" aria-label="Enviar mensaje">Enviar</button>
-        </form>
-        <button id="voice-toggle" aria-pressed="true" aria-label="Activar o desactivar voz">🔊 Voz ON</button>
-    </div>
+    function distanceBetween(p1, p2) {
+      return Math.hypot(p2.x - p1.x, p2.y - p1.y);
+    }
 
-    <!-- Popup oferta -->
-    <div id="oferta-popup">
-        ¡Oferta BlackBot activa! 🎉
-        <button id="close-popup" aria-label="Cerrar oferta">×</button>
-    </div>
+    function getMousePos(canvas, evt) {
+      const rect = canvas.getBoundingClientRect();
+      return {
+        x: (evt.clientX || evt.touches?.[0]?.clientX) - rect.left,
+        y: (evt.clientY || evt.touches?.[0]?.clientY) - rect.top
+      };
+    }
 
-    <!-- Botón rasca y gana arriba izquierda -->
-    <button id="rasca-btn" aria-label="Abrir Rasca y Gana">🎉</button>
+    function initCanvas() {
+      ctx.fillStyle = '#888';
+      ctx.fillRect(0, 0, rascaCanvas.width, rascaCanvas.height);
+      ctx.font = '24px Arial';
+      ctx.fillStyle = '#121212';
+      ctx.textAlign = 'center';
+      ctx.fillText('¡Ganaste 10% OFF!', rascaCanvas.width / 2, rascaCanvas.height / 2 + 10);
+    }
 
-    <!-- Popup rasca y gana -->
-    <div id="rasca-popup" aria-live="polite" aria-atomic="true" role="dialog" aria-modal="false">
-        <button id="close-rasca" aria-label="Cerrar Rasca y Gana">×</button>
-        <p>¡Felicidades! Has ganado un descuento del 10% en tu próxima compra. 🎉</p>
-    </div>
+    function scratch(x, y) {
+      ctx.globalCompositeOperation = 'destination-out';
+      ctx.beginPath();
+      ctx.arc(x, y, 15, 0, Math.PI * 2, false);
+      ctx.fill();
+      ctx.closePath();
+      ctx.globalCompositeOperation = 'source-over';
+    }
 
-    <script>
-        // Botón abrir chat
-        const openChatBtn = document.getElementById('open-chatbot-btn');
-        const chatbot = document.getElementById('chatbot');
-        const closeChatBtn = document.getElementById('close-chatbot');
+    function getScratchedPercent() {
+      const imageData = ctx.getImageData(0, 0, rascaCanvas.width, rascaCanvas.height);
+      let total = imageData.data.length / 4;
+      let count = 0;
+      for (let i = 3; i < imageData.data.length; i += 4) {
+        if (imageData.data[i] === 0) count++;
+      }
+      return (count / total) * 100;
+    }
 
-        openChatBtn.addEventListener('click', () => {
-            chatbot.style.display = 'flex';
-            openChatBtn.style.display = 'none';
-            document.getElementById('user-input').focus();
-        });
+    function onPointerDown(evt) {
+      isDrawing = true;
+      lastPoint = getMousePos(rascaCanvas, evt);
+      scratch(lastPoint.x, lastPoint.y);
+    }
 
-        closeChatBtn.addEventListener('click', () => {
-            chatbot.style.display = 'none';
-            openChatBtn.style.display = 'block';
-        });
+    function onPointerMove(evt) {
+      if (!isDrawing) return;
+      evt.preventDefault();
+      const currentPoint = getMousePos(rascaCanvas, evt);
+      const dist = distanceBetween(lastPoint, currentPoint);
+      const angle = Math.atan2(currentPoint.y - lastPoint.y, currentPoint.x - lastPoint.x);
 
-        // Formulario chat
-        const chatForm = document.getElementById('chat-form');
-        const messagesDiv = document.getElementById('messages');
-        const userInput = document.getElementById('user-input');
+      for (let i = 0; i < dist; i += 5) {
+        const x = lastPoint.x + Math.cos(angle) * i;
+        const y = lastPoint.y + Math.sin(angle) * i;
+        scratch(x, y);
+      }
 
-        function addMessage(text, sender) {
-            const msg = document.createElement('div');
-            msg.classList.add('message', sender);
-            msg.textContent = text;
-            messagesDiv.appendChild(msg);
-            messagesDiv.scrollTop = messagesDiv.scrollHeight;
-        }
+      lastPoint = currentPoint;
 
-        chatForm.addEventListener('submit', e => {
-            e.preventDefault();
-            const text = userInput.value.trim();
-            if (!text) return;
+      if (getScratchedPercent() > 40) {
+        rascaMessage.textContent = '¡Felicidades! Tu descuento está activo. 🎉';
+        rascaCanvas.removeEventListener('pointerdown', onPointerDown);
+        rascaCanvas.removeEventListener('pointermove', onPointerMove);
+        rascaCanvas.removeEventListener('pointerup', onPointerUp);
+      }
+    }
 
-            addMessage(text, 'user');
-            userInput.value = '';
-            // Respuesta simulada BlackBot
-            setTimeout(() => {
-                addMessage('Aquí BlackBot: ' + text.split('').reverse().join(''), 'blackbot');
-            }, 800);
-        });
+    function onPointerUp() {
+      isDrawing = false;
+    }
 
-        // Voz ON/OFF
-        const voiceToggle = document.getElementById('voice-toggle');
-        let voiceOn = true;
+    openRascaBtn.addEventListener('click', () => {
+      rascaModal.style.display = 'flex';
+      rascaMessage.textContent = '';
+      initCanvas();
+      rascaCanvas.addEventListener('pointerdown', onPointerDown);
+      rascaCanvas.addEventListener('pointermove', onPointerMove);
+      rascaCanvas.addEventListener('pointerup', onPointerUp);
+      rascaCanvas.addEventListener('pointerleave', onPointerUp);
+    });
 
-        voiceToggle.addEventListener('click', () => {
-            voiceOn = !voiceOn;
-            voiceToggle.classList.toggle('off', !voiceOn);
-            voiceToggle.textContent = voiceOn ? '🔊 Voz ON' : '🔇 Voz OFF';
-            voiceToggle.setAttribute('aria-pressed', voiceOn ? 'true' : 'false');
-        });
+    closeRascaBtn.addEventListener('click', () => {
+      rascaModal.style.display = 'none';
+      rascaCanvas.removeEventListener('pointerdown', onPointerDown);
+      rascaCanvas.removeEventListener('pointermove', onPointerMove);
+      rascaCanvas.removeEventListener('pointerup', onPointerUp);
+      rascaCanvas.removeEventListener('pointerleave', onPointerUp);
+    });
 
-        // Popup oferta
-        const ofertaPopup = document.getElementById('oferta-popup');
-        const closePopupBtn = document.getElementById('close-popup');
+    // Chatbot Toggle
+    const chatbotToggle = document.getElementById('chatbot-toggle');
+    const chatbot = document.getElementById('chatbot');
 
-        function showOferta() {
-            ofertaPopup.style.visibility = 'visible';
-            ofertaPopup.style.opacity = '1';
-        }
-
-        function hideOferta() {
-            ofertaPopup.style.opacity = '0';
-            setTimeout(() => {
-                ofertaPopup.style.visibility = 'hidden';
-            }, 300);
-        }
-
-        closePopupBtn.addEventListener('click', hideOferta);
-
-        // Mostrar oferta tras 3 seg
-        setTimeout(showOferta, 3000);
-
-        // Rasca y gana arriba izquierda
-        const rascaBtn = document.getElementById('rasca-btn');
-        const rascaPopup = document.getElementById('rasca-popup');
-        const closeRascaBtn = document.getElementById('close-rasca');
-
-        rascaBtn.addEventListener('click', () => {
-            if (rascaPopup.style.visibility === 'visible') {
-                rascaPopup.style.opacity = '0';
-                setTimeout(() => {
-                    rascaPopup.style.visibility = 'hidden';
-                }, 300);
-            } else {
-                rascaPopup.style.visibility = 'visible';
-                rascaPopup.style.opacity = '1';
-            }
-        });
-
-        closeRascaBtn.addEventListener('click', () => {
-            rascaPopup.style.opacity = '0';
-            setTimeout(() => {
-                rascaPopup.style.visibility = 'hidden';
-            }, 300);
-        });
-
-        // Dark mode toggle básico
-        const toggleDarkBtn = document.getElementById('toggle-dark');
-        toggleDarkBtn.addEventListener('click', () => {
-            document.body.classList.toggle('dark-mode');
-            const isDark = document.body.classList.contains('dark-mode');
-            toggleDarkBtn.textContent = isDark ? '☀️' : '🌙';
-        });
-
-    </script>
+    chatbotToggle.addEventListener('click', () => {
+      chatbot.style.display = chatbot.style.display === 'flex' ? 'none' : 'flex';
+    });
+  </script>
 
 </body>
 </html>
