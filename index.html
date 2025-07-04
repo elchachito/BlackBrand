@@ -37,6 +37,8 @@
     nav a {
       color: inherit;
       text-decoration: none;
+      font-size: 18px;
+      padding: 8px 5px;
     }
     section {
       padding: 40px 20px;
@@ -48,20 +50,24 @@
       text-align: center;
     }
     .productos {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); /* Grid flexible */
       gap: 20px;
+      justify-items: center;
+      padding: 0 10px;
     }
     .producto {
       background: #1f1f1f;
       padding: 10px;
       border-radius: 8px;
-      width: 160px;
+      width: 100%;
+      max-width: 180px;
+      box-sizing: border-box;
     }
     .producto img {
       width: 100%;
       border-radius: 6px;
+      display: block;
     }
 
     /* Chatbot */
@@ -77,6 +83,7 @@
       font-size: 24px;
       color: #121212;
       cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
     }
     #chatbot {
       display: none;
@@ -115,6 +122,7 @@
       border: none;
       color: #121212;
       padding: 0 20px;
+      cursor: pointer;
     }
 
     /* Botón WhatsApp Fijo */
@@ -130,6 +138,9 @@
       font-size: 18px;
       box-shadow: 0 0 5px rgba(0,0,0,0.5);
       z-index: 9999;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     /* Modo Claro */
@@ -149,13 +160,59 @@
       background: #eee;
       color: #121212;
     }
+
+    /* --- MEDIA QUERIES --- */
+    @media (max-width: 768px) {
+      nav ul {
+        flex-direction: column; /* Nav vertical en móvil */
+        padding: 5px 0;
+      }
+      nav li {
+        margin: 8px 0;
+      }
+      header h1 {
+        font-size: 20px;
+      }
+      nav a {
+        font-size: 20px;
+      }
+      section {
+        padding: 30px 15px;
+      }
+      #chatbot {
+        width: 90vw;
+        height: 60vh;
+        bottom: 90px;
+        right: 5vw;
+      }
+      .producto {
+        max-width: 100%;
+      }
+      .whatsapp-btn {
+        font-size: 16px;
+        padding: 10px 14px;
+        bottom: 80px; /* Para que no choque con chatbot */
+      }
+    }
+
+    @media (max-width: 400px) {
+      header h1 {
+        font-size: 18px;
+      }
+      nav a {
+        font-size: 16px;
+      }
+      #chatbot {
+        height: 55vh;
+      }
+    }
   </style>
 </head>
 <body>
 
   <header>
     <h1>Black Brand</h1>
-    <button id="toggle-mode-btn">🌙</button>
+    <button id="toggle-mode-btn" aria-label="Cambiar modo claro/oscuro">🌙</button>
   </header>
 
   <nav>
@@ -208,28 +265,23 @@
   >
 
   <!-- Chatbot -->
-  <button id="open-chatbot-btn">🤖</button>
-  <div id="chatbot">
+  <button id="open-chatbot-btn" aria-label="Abrir chat de ayuda">🤖</button>
+  <div id="chatbot" role="dialog" aria-modal="true" aria-labelledby="chatbot-title">
     <div
-      style="
-        padding: 10px;
-        background: #222;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      "
+      style="padding: 10px; background: #222; display: flex; justify-content: space-between; align-items: center;"
     >
-      <span>BlackBot Chat</span>
+      <span id="chatbot-title">BlackBot Chat</span>
       <button
         id="close-chatbot"
-        style="background: none; border: none; color: #eee; font-size: 20px"
+        style="background: none; border: none; color: #eee; font-size: 20px; cursor:pointer;"
+        aria-label="Cerrar chat"
       >
         ×
       </button>
     </div>
-    <div class="messages"></div>
+    <div class="messages" aria-live="polite" aria-relevant="additions"></div>
     <form id="chat-form">
-      <input id="user-input" placeholder="Escribe..." required />
+      <input id="user-input" placeholder="Escribe..." required aria-label="Mensaje" />
       <button type="submit">Enviar</button>
     </form>
   </div>
@@ -246,6 +298,7 @@
     oc.onclick = () => {
       ch.style.display = "flex";
       oc.style.display = "none";
+      inp.focus();
     };
     cc.onclick = () => {
       ch.style.display = "none";
@@ -278,3 +331,4 @@
   </script>
 </body>
 </html>
+
