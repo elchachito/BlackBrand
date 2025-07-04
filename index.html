@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Black Brand</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     body {
       margin: 0;
@@ -19,7 +19,10 @@
       justify-content: space-between;
       align-items: center;
     }
-    header h1 { margin: 0; font-size: 24px; }
+    header h1 {
+      margin: 0;
+      font-size: 24px;
+    }
     nav ul {
       display: flex;
       list-style: none;
@@ -28,9 +31,17 @@
       background: #222;
       justify-content: center;
     }
-    nav li { margin: 0 15px; }
-    nav a { color: inherit; text-decoration: none; }
-    section { padding: 40px 20px; text-align: center; }
+    nav li {
+      margin: 0 15px;
+    }
+    nav a {
+      color: inherit;
+      text-decoration: none;
+    }
+    section {
+      padding: 40px 20px;
+      text-align: center;
+    }
     footer {
       background: #1f1f1f;
       padding: 20px;
@@ -59,7 +70,7 @@
       bottom: 20px;
       right: 20px;
       z-index: 11000;
-      background: #25D366;
+      background: #25d366;
       border: none;
       border-radius: 50%;
       padding: 15px;
@@ -100,7 +111,7 @@
       border: none;
     }
     #chatbot button {
-      background: #25D366;
+      background: #25d366;
       border: none;
       color: #121212;
       padding: 0 20px;
@@ -111,7 +122,7 @@
       position: fixed;
       bottom: 20px;
       left: 20px;
-      background: #25D366;
+      background: #25d366;
       color: #fff;
       padding: 12px 16px;
       border-radius: 50px;
@@ -126,7 +137,11 @@
       background: #f5f5f5;
       color: #121212;
     }
-    body.claro header, body.claro footer, body.claro .producto, body.claro nav ul, body.claro #chatbot {
+    body.claro header,
+    body.claro footer,
+    body.claro .producto,
+    body.claro nav ul,
+    body.claro #chatbot {
       background: #ddd;
       color: #121212;
     }
@@ -163,9 +178,9 @@
   <section id="productos">
     <h2>Productos Destacados</h2>
     <div class="productos">
-      <div class="producto"><img src="assets/vaper1.jpg" alt=""><p>Vaper 15k</p></div>
-      <div class="producto"><img src="assets/vaper2.jpg" alt=""><p>Vaper 20k</p></div>
-      <div class="producto"><img src="assets/vaper3.jpg" alt=""><p>Vaper ????</p></div>
+      <div class="producto"><img src="assets/vaper1.jpg" alt="Vaper 15k" /><p>Vaper 15k</p></div>
+      <div class="producto"><img src="assets/vaper2.jpg" alt="Vaper 20k" /><p>Vaper 20k</p></div>
+      <div class="producto"><img src="assets/vaper3.jpg" alt="Vaper ????" /><p>Vaper ????</p></div>
     </div>
   </section>
 
@@ -177,59 +192,89 @@
   <footer>
     <p>&copy; 2025 Black Brand</p>
     <div class="redes-sociales">
-      <a href="https://www.instagram.com/black__brand" target="_blank">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg" alt="" width="28">
+      <a href="https://www.instagram.com/black__brand" target="_blank" rel="noopener">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg" alt="Instagram" width="28" />
       </a>
     </div>
   </footer>
 
   <!-- Botón Fijo de WhatsApp -->
-  <a class="whatsapp-btn" href="https://wa.me/34TU_NUMERO" target="_blank">💬 WhatsApp</a>
+  <a
+    class="whatsapp-btn"
+    href="https://wa.me/34TU_NUMERO"
+    target="_blank"
+    rel="noopener"
+    >💬 WhatsApp</a
+  >
 
   <!-- Chatbot -->
   <button id="open-chatbot-btn">🤖</button>
   <div id="chatbot">
-    <div style="padding:10px; background:#222; display:flex; justify-content:space-between; align-items:center;">
+    <div
+      style="
+        padding: 10px;
+        background: #222;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      "
+    >
       <span>BlackBot Chat</span>
-      <button id="close-chatbot" style="background:none; border:none; color:#eee; font-size:20px;">×</button>
+      <button
+        id="close-chatbot"
+        style="background: none; border: none; color: #eee; font-size: 20px"
+      >
+        ×
+      </button>
     </div>
     <div class="messages"></div>
     <form id="chat-form">
-      <input id="user-input" placeholder="Escribe..." required>
+      <input id="user-input" placeholder="Escribe..." required />
       <button type="submit">Enviar</button>
     </form>
   </div>
 
   <script>
     // Chatbot
-    const oc = document.getElementById('open-chatbot-btn'),
-          cc = document.getElementById('close-chatbot'),
-          ch = document.getElementById('chatbot'),
-          form = document.getElementById('chat-form'),
-          msgs = document.querySelector('.messages'),
-          inp = document.getElementById('user-input');
+    const oc = document.getElementById("open-chatbot-btn"),
+      cc = document.getElementById("close-chatbot"),
+      ch = document.getElementById("chatbot"),
+      form = document.getElementById("chat-form"),
+      msgs = document.querySelector(".messages"),
+      inp = document.getElementById("user-input");
 
-    oc.onclick = () => { ch.style.display = 'flex'; oc.style.display = 'none'; };
-    cc.onclick = () => { ch.style.display = 'none'; oc.style.display = 'block'; msgs.innerHTML = ''; };
-    form.onsubmit = e => {
+    oc.onclick = () => {
+      ch.style.display = "flex";
+      oc.style.display = "none";
+    };
+    cc.onclick = () => {
+      ch.style.display = "none";
+      oc.style.display = "block";
+      msgs.innerHTML = "";
+    };
+    form.onsubmit = (e) => {
       e.preventDefault();
       const t = inp.value.trim();
       if (!t) return;
       msgs.innerHTML += `<div style="text-align:right; background:#444; margin:5px; padding:8px; border-radius:8px;">${t}</div>`;
-      inp.value = '';
+      inp.value = "";
       setTimeout(() => {
-        msgs.innerHTML += `<div style="text-align:left; background:#25D366; margin:5px; padding:8px; border-radius:8px; color:#000;">Aquí BlackBot: ${t.split('').reverse().join('')}</div>`;
+        msgs.innerHTML += `<div style="text-align:left; background:#25D366; margin:5px; padding:8px; border-radius:8px; color:#000;">Aquí BlackBot: ${t
+          .split("")
+          .reverse()
+          .join("")}</div>`;
         msgs.scrollTop = msgs.scrollHeight;
       }, 500);
     };
 
     // Modo Claro/Oscuro
-    const btnModo = document.getElementById('toggle-mode-btn');
+    const btnModo = document.getElementById("toggle-mode-btn");
     btnModo.onclick = () => {
-      document.body.classList.toggle('claro');
-      btnModo.textContent = document.body.classList.contains('claro') ? '🌞' : '🌙';
+      document.body.classList.toggle("claro");
+      btnModo.textContent = document.body.classList.contains("claro")
+        ? "🌞"
+        : "🌙";
     };
   </script>
-
 </body>
 </html>
