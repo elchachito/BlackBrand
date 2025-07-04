@@ -1,96 +1,341 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Black Brand</title>
-    <link rel="stylesheet" href="css/styles.css" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Black Brand</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #121212;
+    color: #eee;
+    margin: 0;
+    padding: 0;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  header {
+    background-color: #1f1f1f;
+    padding: 30px 20px;
+    text-align: center;
+    position: relative;
+  }
+
+  header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+  }
+
+  #toggle-dark {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #eee;
+  }
+
+  nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    background-color: #222;
+    display: flex;
+    justify-content: center;
+  }
+
+  nav ul li {
+    margin: 0 15px;
+  }
+
+  nav ul li a {
+    color: #eee;
+    text-decoration: none;
+    padding: 15px 0;
+    display: block;
+    transition: background-color 0.3s ease;
+  }
+
+  nav ul li a:hover {
+    background-color: #333;
+  }
+
+  .hero {
+    background-image: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1350&q=80');
+    background-size: cover;
+    background-position: center;
+    height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .hero h1 {
+    font-size: 3rem;
+    color: #fff;
+    text-shadow: 2px 2px 10px rgba(0,0,0,0.7);
+  }
+
+  section {
+    padding: 40px 20px;
+  }
+
+  .productos {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .producto {
+    background-color: #1e1e1e;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    width: 200px;
+    transition: transform 0.3s ease;
+  }
+
+  .producto img {
+    width: 100%;
+    border-radius: 8px;
+  }
+
+  .producto:hover {
+    transform: scale(1.05);
+  }
+
+  .boton-whatsapp-fijo {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #25D366;
+    color: white;
+    padding: 15px;
+    border-radius: 50%;
+    text-align: center;
+    text-decoration: none;
+    font-size: 24px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    z-index: 100;
+  }
+
+  footer {
+    background-color: #1f1f1f;
+    text-align: center;
+    padding: 20px;
+    font-size: 0.9rem;
+  }
+
+  .redes-sociales {
+    margin-top: 15px;
+  }
+
+  .redes-sociales a {
+    color: #eee;
+    transition: color 0.3s ease, transform 0.3s ease;
+    display: inline-block;
+    margin: 0 5px;
+  }
+
+  body.light .redes-sociales a {
+    color: #121212;
+  }
+
+  .redes-sociales a:hover {
+    color: #e1306c; /* Color Instagram */
+    transform: scale(1.2);
+  }
+
+  /* Instagram logo animation */
+  .redes-sociales img {
+    width: 32px;
+    height: 32px;
+    transition: transform 0.3s ease, filter 0.3s ease;
+    cursor: pointer;
+  }
+
+  .redes-sociales img:hover {
+    transform: rotate(15deg) scale(1.2);
+    filter: brightness(1.2);
+  }
+
+  @media (max-width: 768px) {
+    nav ul {
+      flex-direction: column;
+      background-color: #1f1f1f;
+    }
+
+    nav ul li {
+      margin: 10px 0;
+      text-align: center;
+    }
+
+    nav ul li a {
+      padding: 10px 0;
+      font-size: 1.2rem;
+    }
+
+    header {
+      padding: 20px 10px;
+    }
+
+    .hero {
+      height: 50vh;
+      padding: 0 15px;
+    }
+
+    .hero h1 {
+      font-size: 1.8rem;
+      line-height: 1.2;
+    }
+
+    .productos {
+      flex-direction: column;
+      width: 100%;
+      padding: 0 10px;
+    }
+
+    .producto {
+      width: 100%;
+      max-width: 350px;
+      margin: 0 auto 20px;
+    }
+
+    footer {
+      padding: 15px 10px;
+      font-size: 0.85rem;
+    }
+
+    .boton-whatsapp-fijo {
+      bottom: 15px;
+      right: 15px;
+      padding: 20px;
+      font-size: 28px;
+    }
+  }
+
+  @media (max-width: 400px) {
+    nav ul li a {
+      font-size: 1rem;
+      padding: 8px 0;
+    }
+
+    .hero h1 {
+      font-size: 1.4rem;
+    }
+
+    .producto {
+      max-width: 280px;
+    }
+  }
+
+  /* Light mode */
+  body.light {
+    background-color: #f5f5f5;
+    color: #121212;
+  }
+
+  body.light header {
+    background-color: #e0e0e0;
+  }
+
+  body.light nav ul {
+    background-color: #d5d5d5;
+  }
+
+  body.light nav ul li a {
+    color: #121212;
+  }
+
+  body.light nav ul li a:hover {
+    background-color: #c0c0c0;
+  }
+
+  body.light .producto {
+    background-color: #f0f0f0;
+  }
+
+  body.light footer {
+    background-color: #e0e0e0;
+  }
+</style>
 </head>
 <body>
 
-    <header>
-        <h1>Black Brand</h1> 
-        <button id="toggle-dark" aria-label="Cambiar tema">🌙</button>
-    </header>
+<header>
+  <h1>Black Brand</h1>
+  <button id="toggle-dark" aria-label="Cambiar tema">🌙</button>
+</header>
 
-    <nav>
-        <ul>
-            <li><a href="#sobre">Sobre Nosotros</a></li>
-            <li><a href="#productos">Productos</a></li>
-            <li><a href="#contacto">Contacto</a></li>
-        </ul>
-    </nav>
+<nav>
+  <ul>
+    <li><a href="#sobre">Sobre Nosotros</a></li>
+    <li><a href="#productos">Productos</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+</nav>
 
-    <section class="hero">
-        <h1>Bueno,Bonito y Barato </h1>
-    </section>
+<section class="hero">
+  <h1>Bueno, Bonito y Barato</h1>
+</section>
 
-    <section id="sobre">
-        <h2>Sobre Nosotros</h2>
-        <p>Bienvenido a la Black Brand. 
-            🚀</p>
-    </section>
+<section id="sobre">
+  <h2>Sobre Nosotros</h2>
+  <p>Bienvenido a la Black Brand. 🚀</p>
+</section>
 
-    <section id="productos">
-        <h2>Productos Destacados</h2>
-        <div class="productos">
-            <div class="producto">
-                <img src="assets/vaper1.jpg" alt="Vaper 1" />
-                <p>Vaper 15k</p>
-            </div>
-            <div class="producto">
-                <img src="assets/vaper2.jpg" alt="Vaper 2" />
-                <p>Vaper 20k</p>
-            </div>
-            <div class="producto">
-                <img src="assets/vaper3.jpg" alt="Vaper 3" />
-                <p>Vaper ????</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="contacto">
-        <h2>Contacto</h2>
-        <p>¿Tienes dudas? Escríbenos directo al WhatsApp o síguenos en Instagram para más novedades.</p>
-    </section>
-
-    <footer>
-    <p>&copy; 2025 Black Brand. Todos los derechos reservados.</p>
-    <div class="redes-sociales">
-        <a href="https://www.instagram.com/black__brand" target="_blank" title="Síguenos en Instagram" rel="noopener noreferrer">
-            <img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Instagram" width="30" height="30">
-        </a>
+<section id="productos">
+  <h2>Productos Destacados</h2>
+  <div class="productos">
+    <div class="producto">
+      <img src="https://images.unsplash.com/photo-1549924231-f129b911e442?auto=format&fit=crop&w=400&q=80" alt="Vaper 1" />
+      <p>Vaper 15k</p>
     </div>
+    <div class="producto">
+      <img src="https://images.unsplash.com/photo-1575936123452-b67c3203c357?auto=format&fit=crop&w=400&q=80" alt="Vaper 2" />
+      <p>Vaper Pro</p>
+    </div>
+    <div class="producto">
+      <img src="https://images.unsplash.com/photo-1556909170-0f773a5f6c89?auto=format&fit=crop&w=400&q=80" alt="Vaper 3" />
+      <p>Vaper Max</p>
+    </div>
+  </div>
+</section>
+
+<section id="contacto">
+  <h2>Contacto</h2>
+  <p>Escríbenos por WhatsApp o síguenos en Instagram.</p>
+</section>
+
+<a href="https://wa.me/1234567890" target="_blank" class="boton-whatsapp-fijo" aria-label="Contactar por WhatsApp">📱</a>
+
+<footer>
+  <p>© 2025 Black Brand. Todos los derechos reservados.</p>
+  <div class="redes-sociales">
+    <a href="https://instagram.com/tu_usuario" target="_blank" aria-label="Instagram">
+      <img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Instagram" />
+    </a>
+  </div>
 </footer>
 
-
-
-
-    <!-- Botón WhatsApp Fijo -->
-    <a href="https://wa.me/34TU_NUMERO" class="boton-whatsapp-fijo" target="_blank" title="Habla con nosotros">💬</a>
-
-    <script>
-      const toggleBtn = document.getElementById('toggle-dark');
-      const body = document.body;
-
-      // Carga el tema guardado si existe
-      if(localStorage.getItem('theme') === 'light') {
-        body.classList.add('light');
-        toggleBtn.textContent = '☀️';
-      }
-
-      toggleBtn.addEventListener('click', () => {
-        body.classList.toggle('light');
-
-        if(body.classList.contains('light')) {
-          toggleBtn.textContent = '☀️';  // Icono sol para modo claro
-          localStorage.setItem('theme', 'light');
-        } else {
-          toggleBtn.textContent = '🌙';  // Icono luna para modo oscuro
-          localStorage.setItem('theme', 'dark');
-        }
-      });
-    </script>
+<script>
+  const toggleBtn = document.getElementById('toggle-dark');
+  toggleBtn.addEventListener('click', () => {
+    document.body.classList.toggle('light');
+    // Cambia icono entre luna y sol
+    if(document.body.classList.contains('light')) {
+      toggleBtn.textContent = '☀️';
+    } else {
+      toggleBtn.textContent = '🌙';
+    }
+  });
+</script>
 
 </body>
 </html>
