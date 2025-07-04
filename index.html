@@ -38,8 +38,9 @@
             background: none;
             border: none;
             color: #eee;
-            font-size: 1.2rem;
+            font-size: 1.5rem;
             cursor: pointer;
+            line-height: 1;
         }
 
         #chatbot .messages {
@@ -62,6 +63,7 @@
             padding: 8px 12px;
             border-radius: 16px 16px 16px 0;
             align-self: flex-start;
+            font-weight: 600;
         }
 
         #chatbot .message.user {
@@ -70,6 +72,7 @@
             padding: 8px 12px;
             border-radius: 16px 16px 0 16px;
             align-self: flex-end;
+            font-weight: 700;
         }
 
         #chatbot form {
@@ -100,6 +103,26 @@
 
         #chatbot form button:hover {
             background: #1ebe54;
+        }
+
+        /* Botón toggle voz */
+        #voice-toggle {
+            background: #25D366;
+            border: none;
+            color: #121212;
+            font-weight: 700;
+            font-size: 0.9rem;
+            padding: 6px;
+            cursor: pointer;
+            width: 100%;
+            border-radius: 0 0 12px 12px;
+            user-select: none;
+            transition: background-color 0.3s ease;
+        }
+
+        #voice-toggle.off {
+            background: #555;
+            color: #ccc;
         }
     </style>
 </head>
@@ -163,16 +186,17 @@
     <a href="https://wa.me/34TU_NUMERO" class="boton-whatsapp-fijo" target="_blank" title="Habla con nosotros">💬</a>
 
     <!-- Chatbot BlackBot -->
-    <div id="chatbot">
+    <div id="chatbot" role="region" aria-label="Chatbot BlackBot">
         <header>
             BlackBot Chat
             <button id="close-chatbot" aria-label="Cerrar chat">×</button>
         </header>
-        <div class="messages" id="messages"></div>
-        <form id="chat-form">
-            <input type="text" id="user-input" placeholder="Escribe algo..." autocomplete="off" required />
-            <button type="submit">Enviar</button>
+        <div class="messages" id="messages" aria-live="polite" aria-relevant="additions"></div>
+        <form id="chat-form" aria-label="Formulario para enviar mensajes al chatbot">
+            <input type="text" id="user-input" placeholder="Escribe algo..." autocomplete="off" required aria-required="true" />
+            <button type="submit" aria-label="Enviar mensaje">Enviar</button>
         </form>
+        <button id="voice-toggle" aria-pressed="true" aria-label="Activar o desactivar voz">🔊 Voz ON</button>
     </div>
 
     <script>
@@ -183,39 +207,99 @@
             toggleBtn.textContent = document.body.classList.contains('light') ? '🌞' : '🌙';
         });
 
-        // Chatbot BlackBot básico
+        // Variables BlackBot
         const chatbot = document.getElementById('chatbot');
         const closeBtn = document.getElementById('close-chatbot');
         const messagesContainer = document.getElementById('messages');
         const chatForm = document.getElementById('chat-form');
         const userInput = document.getElementById('user-input');
+        const voiceToggleBtn = document.getElementById('voice-toggle');
 
-        closeBtn.addEventListener('click', () => {
-            chatbot.style.display = 'none';
-        });
+        let voiceOn = true;
 
+        // Función para añadir mensaje al chat
         function addMessage(text, sender) {
             const msg = document.createElement('div');
             msg.classList.add('message', sender);
             msg.textContent = text;
             messagesContainer.appendChild(msg);
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+            // Si es bot y la voz está activada, habla el texto
+            if(sender === 'blackbot' && voiceOn && 'speechSynthesis' in window){
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'es-ES';
+                utterance.rate = 1;
+                utterance.pitch = 1;
+                speechSynthesis.cancel();
+                speechSynthesis.speak(utterance);
+            }
         }
 
-        function blackbotResponse(input) {
-            input = input.toLowerCase();
-
-            // Respuestas simples con humor y actitud
-            if(input.includes('hola')) return '¡Ey, qué pasa! Soy BlackBot, tu asistente virtual. ¿Qué necesitas?';
-            if(input.includes('precio')) return 'Los mejores vapers a precios que ni tu cartera sufre.';
-            if(input.includes('envío')) return 'Envío rápido, que ni pestañeas y ya lo tienes.';
-            if(input.includes('producto') || input.includes('vaper')) return 'Tenemos de todo, desde el básico al pro, para que vapees con estilo.';
-            if(input.includes('contacto')) return 'Si quieres hablar con alguien real, aquí está nuestro WhatsApp fijo. 💬';
-            if(input.includes('gracias')) return 'De nada, siempre al pie del cañón.';
-            if(input.includes('chiste')) return '¿Sabes por qué el vaper no puede mentir? Porque siempre se le ve el humo. 😂';
-            return 'Hmm, no pillé eso. ¿Me lo dices de nuevo o quieres un chiste?';
+        // Normaliza input para detectar mejor
+        function normalizeInput(text) {
+            return text
+              .toLowerCase()
+              .replace(/(cuánto|cuanto|kuanto)/g, 'cuánto')
+              .replace(/(precio|pricio|prezio)/g, 'precio')
+              .replace(/(envio|envío|envios|envíos)/g, 'envío')
+              .replace(/(vaper|vapear|vapos)/g, 'vaper')
+              .replace(/(liquido|líquido|liquidos|líquidos)/g, 'líquido')
+              .replace(/[^\w\sáéíóúüñ]/gi, '')
+              .trim();
         }
 
+        // BlackBot responde con flow y humor
+        function blackbotResponse(inputText) {
+            const txt = normalizeInput(inputText);
+
+            if (/^(hola|hey|buenas|qué tal|buen día|buenas tardes|buenas noches)/.test(txt)) {
+              return "¡Ey, qué pasa! Aquí BlackBot, tu colega vapeador listo para echarte una mano. ¿Qué quieres saber hoy?";
+            }
+
+            if (txt.includes('producto') || txt.includes('vaper') || txt.includes('líquido')) {
+              return "Tenemos vapers desde 15k a 30k y líquidos de mil sabores. ¿Quieres que te recomiende algo o buscas algo en concreto?";
+            }
+
+            if (txt.includes('precio')) {
+              return "Los precios van desde 15k para los modelos básicos, hasta 30k para los premium. ¿Buscas algo barato o de lujo?";
+            }
+
+            if (txt.includes('envío')) {
+              return "El envío es rápido, entre 24 y 48 horas. Si te portas bien, te mando un tracking para que sigas tu pedido.";
+            }
+
+            if (txt.includes('sabor')) {
+              return "Tenemos desde menta fresca, frutas tropicales, hasta combinados especiales. ¿Quieres que te recomiende un sabor ganador?";
+            }
+
+            if (txt.includes('batería') || txt.includes('carga')) {
+              return "Las baterías duran un buen rato, pero siempre usa el cargador oficial. No te juegues la vida con imitaciones, ¿ok?";
+            }
+
+            if (txt.includes('qué tal') && txt.includes('día')) {
+              return "Aquí siempre es vapeo y buena onda, hermano. ¿Y tú qué tal?";
+            }
+
+            if (txt.length < 3) {
+              return "No me hables en código Morse, colega. Dame más detalles y te ayudo.";
+            }
+
+            if (/(tonto|idiota|gilipollas|imbecil)/.test(txt)) {
+              return "¡Eh! Soy un bot con sentimientos, cuidado con las palabras que usas.";
+            }
+
+            const respuestasRandom = [
+              "No pillo bien, pero si me explicas, te saco de dudas.",
+              "No soy mago, pero dame más pistas y te ayudo.",
+              "¿Estás escribiendo en clave o qué? Dime más claro, colega.",
+              "Si me hablas clarito, hasta te hago un descuento imaginario.",
+              "¿Quieres que te lo explique en plan guru vapeador? Pide y se te dará."
+            ];
+            return respuestasRandom[Math.floor(Math.random() * respuestasRandom.length)];
+        }
+
+        // Envío formulario chat
         chatForm.addEventListener('submit', e => {
             e.preventDefault();
             const text = userInput.value.trim();
@@ -229,7 +313,21 @@
             }, 600);
         });
 
-        // Mensaje de bienvenida automático
+        // Cerrar chat
+        closeBtn.addEventListener('click', () => {
+            chatbot.style.display = 'none';
+        });
+
+        // Toggle voz
+        voiceToggleBtn.addEventListener('click', () => {
+            voiceOn = !voiceOn;
+            voiceToggleBtn.textContent = voiceOn ? '🔊 Voz ON' : '🔇 Voz OFF';
+            voiceToggleBtn.classList.toggle('off', !voiceOn);
+            voiceToggleBtn.setAttribute('aria-pressed', voiceOn);
+            if(!voiceOn) speechSynthesis.cancel();
+        });
+
+        // Mensaje bienvenida
         window.onload = () => {
             addMessage('¡Hola! Soy BlackBot. Escríbeme algo para empezar.', 'blackbot');
         };
