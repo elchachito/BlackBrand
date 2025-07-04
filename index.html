@@ -5,6 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Black Brand con BlackBot</title>
     <link rel="stylesheet" href="css/styles.css" />
+    #rasca-canvas {
+  background: #eee url('https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Texture_icon_2.svg/120px-Texture_icon_2.svg.png') no-repeat center;
+  background-size: 80px 80px;
+  border-radius: 12px;
+  touch-action: none;
+  user-select: none;
+}
     <style>
         /* Estilos básicos para el chatbot */
         #chatbot {
@@ -227,6 +234,130 @@
           top: 6px;
           right: 10px;
         }
+        <!-- Modalidad Rasca y Gana  -->
+<div id="rasca-modal" aria-hidden="true" style="display:none;">
+  <div id="rasca-overlay" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.6);z-index:12000;"></div>
+  <div id="rasca-card" role="dialog" aria-modal="true" aria-labelledby="rasca-title" style="position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);
+    background:#25D366;color:#121212;padding:20px;border-radius:16px;box-shadow:0 0 15px rgba(0,0,0,0.5);z-index:12001;width:300px;text-align:center;">
+    <h2 id="rasca-title">¡Rasca y Gana!</h2>
+    <canvas id="rasca-canvas" width="260" height="120" style="border-radius:12px;cursor:pointer;"></canvas>
+    <p id="rasca-message" style="margin-top:15px; font-weight:700;"></p>
+    <button id="close-rasca" style="margin-top:15px;padding:8px 20px;border:none;border-radius:8px;cursor:pointer;background:#121212;color:#eee;">Cerrar</button>
+  </div>
+</div>
+        const rascaModal = document.getElementById('rasca-modal');
+const rascaCanvas = document.getElementById('rasca-canvas');
+const ctx = rascaCanvas.getContext('2d');
+const rascaMessage = document.getElementById('rasca-message');
+const closeRascaBtn = document.getElementById('close-rasca');
+const rascaOverlay = document.getElementById('rasca-overlay');
+
+const openRascaBtn = document.getElementById('boton-whatsapp-header');
+
+let isDrawing = false;
+let lastPoint = null;
+
+function distanceBetween(point1, point2) {
+    return Math.sqrt(
+        Math.pow(point2.x - point1.x, 2) + Math.pow(point2.y - point1.y, 2)
+    );
+}
+
+function getMousePos(canvas, evt) {
+    const rect = canvas.getBoundingClientRect();
+    return {
+        x: (evt.clientX || evt.touches[0].clientX) - rect.left,
+        y: (evt.clientY || evt.touches[0].clientY) - rect.top
+    };
+}
+
+function initCanvas() {
+    // Capa para rascar (gris)
+    ctx.fillStyle = '#888';
+    ctx.fillRect(0, 0, rascaCanvas.width, rascaCanvas.height);
+
+    // Texto oculto debajo de la capa
+    ctx.font = '24px Arial';
+    ctx.fillStyle = '#121212';
+    ctx.textAlign = 'center';
+    ctx.fillText('¡Ganaste 10% de descuento!', rascaCanvas.width / 2, rascaCanvas.height / 2 + 10);
+}
+
+function scratch(x, y) {
+    ctx.globalCompositeOperation = 'destination-out';
+    ctx.beginPath();
+    ctx.arc(x, y, 15, 0, Math.PI * 2, false);
+    ctx.fill();
+    ctx.closePath();
+    ctx.globalCompositeOperation = 'source-over';
+}
+
+function getScratchedPercent() {
+    const imageData = ctx.getImageData(0, 0, rascaCanvas.width, rascaCanvas.height);
+    let total = imageData.data.length / 4;
+    let count = 0;
+    for (let i = 3; i < imageData.data.length; i += 4) {
+        if (imageData.data[i] === 0) count++;
+    }
+    return (count / total) * 100;
+}
+
+function onPointerDown(evt) {
+    isDrawing = true;
+    lastPoint = getMousePos(rascaCanvas, evt);
+    scratch(lastPoint.x, lastPoint.y);
+}
+
+function onPointerMove(evt) {
+    if (!isDrawing) return;
+    evt.preventDefault();
+    const currentPoint = getMousePos(rascaCanvas, evt);
+    const dist = distanceBetween(lastPoint, currentPoint);
+    const angle = Math.atan2(currentPoint.y - lastPoint.y, currentPoint.x - lastPoint.x);
+
+    for (let i = 0; i < dist; i += 5) {
+        const x = lastPoint.x + Math.cos(angle) * i;
+        const y = lastPoint.y + Math.sin(angle) * i;
+        scratch(x, y);
+    }
+
+    lastPoint = currentPoint;
+
+    if (getScratchedPercent() > 40) {
+        rascaMessage.textContent = '¡Felicidades! Tu descuento está activo. 🎉';
+        rascaCanvas.removeEventListener('pointerdown', onPointerDown);
+        rascaCanvas.removeEventListener('pointermove', onPointerMove);
+        rascaCanvas.removeEventListener('pointerup', () => { isDrawing = false; });
+    }
+}
+
+function onPointerUp() {
+    isDrawing = false;
+}
+
+openRascaBtn.addEventListener('click', () => {
+    rascaModal.style.display = 'block';
+    rascaModal.setAttribute('aria-hidden', 'false');
+    rascaMessage.textContent = '';
+    initCanvas();
+
+    rascaCanvas.addEventListener('pointerdown', onPointerDown);
+    rascaCanvas.addEventListener('pointermove', onPointerMove);
+    rascaCanvas.addEventListener('pointerup', onPointerUp);
+    rascaCanvas.addEventListener('pointerleave', onPointerUp);
+});
+
+closeRascaBtn.addEventListener('click', () => {
+    rascaModal.style.display = 'none';
+    rascaModal.setAttribute('aria-hidden', 'true');
+    rascaCanvas.removeEventListener('pointerdown', onPointerDown);
+    rascaCanvas.removeEventListener('pointermove', onPointerMove);
+    rascaCanvas.removeEventListener('pointerup', onPointerUp);
+    rascaCanvas.removeEventListener('pointerleave', onPointerUp);
+});
+rascaOverlay.addEventListener('click', () => {
+    closeRascaBtn.click();
+});
     </style>
 </head>
 <body>
