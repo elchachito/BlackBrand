@@ -22,6 +22,8 @@
     header h1 {
       margin: 0;
       font-size: 24px;
+      /* Animación título principal al cargar */
+      animation: aparecerDesdeArriba 1s ease forwards; /* ANIMACIÓN */
     }
     nav ul {
       display: flex;
@@ -39,10 +41,21 @@
       text-decoration: none;
       font-size: 18px;
       padding: 8px 5px;
+      transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease; /* ANIMACIÓN */
+    }
+    nav a:hover {
+      transform: scale(1.05); /* ANIMACIÓN */
     }
     section {
       padding: 40px 20px;
       text-align: center;
+      opacity: 0;              /* ANIMACIÓN */
+      transform: translateY(30px); /* ANIMACIÓN */
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out; /* ANIMACIÓN */
+    }
+    section.visible {
+      opacity: 1;              /* ANIMACIÓN */
+      transform: translateY(0); /* ANIMACIÓN */
     }
     footer {
       background: #1f1f1f;
@@ -63,6 +76,13 @@
       width: 100%;
       max-width: 180px;
       box-sizing: border-box;
+      cursor: pointer; /* ANIMACIÓN */
+      transition: transform 0.3s ease, box-shadow 0.3s ease; /* ANIMACIÓN */
+    }
+    .producto:hover {
+      transform: translateY(-8px) scale(1.05); /* ANIMACIÓN */
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5); /* ANIMACIÓN */
+      z-index: 10;
     }
     .producto img {
       width: 100%;
@@ -84,6 +104,10 @@
       color: #121212;
       cursor: pointer;
       box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease; /* ANIMACIÓN */
+    }
+    #open-chatbot-btn:hover {
+      transform: scale(1.05); /* ANIMACIÓN */
     }
     #chatbot {
       display: none;
@@ -141,6 +165,10 @@
       display: flex;
       align-items: center;
       gap: 8px;
+      transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease; /* ANIMACIÓN */
+    }
+    .whatsapp-btn:hover {
+      transform: scale(1.05); /* ANIMACIÓN */
     }
 
     /* Modo Claro */
@@ -159,6 +187,18 @@
     body.claro #chatbot input {
       background: #eee;
       color: #121212;
+    }
+
+    /* Animación título principal */
+    @keyframes aparecerDesdeArriba {
+      0% {
+        opacity: 0;
+        transform: translateY(-50px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     /* --- MEDIA QUERIES --- */
@@ -287,6 +327,19 @@
   </div>
 
   <script>
+    // Animar secciones al hacer scroll
+    function detectarScroll() {
+      const secciones = document.querySelectorAll("section");
+      secciones.forEach((sec) => {
+        const rect = sec.getBoundingClientRect();
+        if (rect.top < window.innerHeight - 100) {
+          sec.classList.add("visible");
+        }
+      });
+    }
+    window.addEventListener("scroll", detectarScroll);
+    window.addEventListener("load", detectarScroll);
+
     // Chatbot
     const oc = document.getElementById("open-chatbot-btn"),
       cc = document.getElementById("close-chatbot"),
@@ -303,30 +356,32 @@
     cc.onclick = () => {
       ch.style.display = "none";
       oc.style.display = "block";
-      msgs.innerHTML = "";
     };
     form.onsubmit = (e) => {
       e.preventDefault();
-      const t = inp.value.trim();
-      if (!t) return;
-      msgs.innerHTML += `<div style="text-align:right; background:#444; margin:5px; padding:8px; border-radius:8px;">${t}</div>`;
+      const userMsg = inp.value.trim();
+      if (!userMsg) return;
+      const userDiv = document.createElement("div");
+      userDiv.textContent = "Tú: " + userMsg;
+      userDiv.style.textAlign = "right";
+      msgs.appendChild(userDiv);
+
+      // Respuesta bot dummy
+      const botDiv = document.createElement("div");
+      botDiv.textContent = "BlackBot: Aquí tu respuesta automática.";
+      msgs.appendChild(botDiv);
+
       inp.value = "";
-      setTimeout(() => {
-        msgs.innerHTML += `<div style="text-align:left; background:#25D366; margin:5px; padding:8px; border-radius:8px; color:#000;">Aquí BlackBot: ${t
-          .split("")
-          .reverse()
-          .join("")}</div>`;
-        msgs.scrollTop = msgs.scrollHeight;
-      }, 500);
+      msgs.scrollTop = msgs.scrollHeight;
     };
 
-    // Modo Claro/Oscuro
-    const btnModo = document.getElementById("toggle-mode-btn");
-    btnModo.onclick = () => {
+    // Modo claro/oscuro toggle
+    const toggle = document.getElementById("toggle-mode-btn");
+    toggle.onclick = () => {
       document.body.classList.toggle("claro");
-      btnModo.textContent = document.body.classList.contains("claro")
-        ? "🌞"
-        : "🌙";
+      toggle.textContent = document.body.classList.contains("claro")
+        ? "🌙"
+        : "☀️";
     };
   </script>
 </body>
