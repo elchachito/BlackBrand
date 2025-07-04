@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8" />
@@ -157,11 +157,11 @@
             right: 10px;
         }
 
-        /* Botón para abrir el chatbot */
+        /* Botón para abrir el chatbot: fijo esquina izquierda */
         #open-chatbot-btn {
             position: fixed;
             bottom: 20px;
-            right: 20px;
+            left: 20px;
             background: #25D366;
             color: #121212;
             border: none;
@@ -173,13 +173,49 @@
             box-shadow: 0 0 15px rgba(0,0,0,0.5);
             z-index: 10500;
         }
+
+        /* Botón rasca (WhatsApp) en header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        #header-buttons {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        #boton-whatsapp-header {
+            background: #25D366;
+            color: #121212;
+            border: none;
+            border-radius: 8px;
+            padding: 6px 12px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 8px rgba(0,0,0,0.3);
+            transition: background-color 0.3s ease;
+        }
+        #boton-whatsapp-header:hover {
+            background: #1ebe54;
+        }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>Black Brand</h1> 
-        <button id="toggle-dark" aria-label="Cambiar tema">🌙</button>
+        <h1>Black Brand</h1>
+        <div id="header-buttons">
+            <button id="toggle-dark" aria-label="Cambiar tema">🌙</button>
+            <a href="https://wa.me/34TU_NUMERO" id="boton-whatsapp-header" target="_blank" title="Habla con nosotros" aria-label="WhatsApp">
+                💬 Rasca
+            </a>
+        </div>
     </header>
 
     <nav>
@@ -230,9 +266,6 @@
             </a>
         </div>
     </footer>
-
-    <!-- Botón WhatsApp Fijo -->
-    <a href="https://wa.me/34TU_NUMERO" class="boton-whatsapp-fijo" target="_blank" title="Habla con nosotros">💬</a>
 
     <!-- Botón para abrir chatbot -->
     <button id="open-chatbot-btn" aria-label="Abrir chat BlackBot">💬</button>
@@ -295,94 +328,33 @@
             }
         }
 
-        // Normaliza input para detectar mejor
-        function normalizeInput(text) {
-            return text
-              .toLowerCase()
-              .replace(/(cuánto|cuanto|kuanto)/g, 'cuánto')
-              .replace(/(precio|pricio|prezio)/g, 'precio')
-              .replace(/(envio|envío|envios|envíos)/g, 'envío')
-              .replace(/(vaper|vapear|vapos)/g, 'vaper')
-              .replace(/(liquido|líquido|liquidos|líquidos)/g, 'líquido')
-              .replace(/[^\w\sáéíóúüñ]/gi, '')
-              .trim();
-        }
-
-        // BlackBot responde con flow y humor
-        function blackbotResponse(inputText) {
-            const txt = normalizeInput(inputText);
-
-            if (/^(hola|hey|buenas|qué tal|buen día|buenas tardes|buenas noches)/.test(txt)) {
-              return "¡Ey, qué pasa! Aquí BlackBot, tu colega vapeador listo para echarte una mano. ¿Qué quieres saber hoy?";
-            }
-
-            if (txt.includes('producto') || txt.includes('vaper') || txt.includes('líquido')) {
-              return "Tenemos vapers desde 15k a 30k y líquidos de mil sabores. ¿Quieres que te recomiende algo o buscas algo en concreto?";
-            }
-
-            if (txt.includes('precio')) {
-              return "Los precios van desde 15k para los modelos básicos, hasta 30k para los premium. ¿Buscas algo barato o de lujo?";
-            }
-
-            if (txt.includes('envío')) {
-              return "El envío es rápido, entre 24 y 48 horas. Si te portas bien, te mando un tracking para que sigas tu pedido.";
-            }
-
-            if (txt.includes('sabor')) {
-              return "Tenemos desde menta fresca, frutas tropicales, hasta combinados especiales. ¿Quieres que te recomiende un sabor ganador?";
-            }
-
-            if (txt.includes('batería') || txt.includes('carga')) {
-              return "Las baterías duran un buen rato, pero siempre usa el cargador oficial. No te juegues la vida con imitaciones, ¿ok?";
-            }
-
-            if (txt.includes('qué tal') && txt.includes('día')) {
-              return "Aquí siempre es vapeo y buena onda, hermano. ¿Y tú qué tal?";
-            }
-
-            if (txt.length < 3) {
-              return "No me hables en código Morse, colega. Dame más detalles y te ayudo.";
-            }
-
-            if (/(tonto|idiota|gilipollas|imbecil)/.test(txt)) {
-              return "¡Eh! Soy un bot con sentimientos, cuidado con las palabras que usas.";
-            }
-
-            const respuestasRandom = [
-              "No pillo bien, pero si me explicas, te saco de dudas.",
-              "No soy mago, pero dame más pistas y te ayudo.",
-              "¿Estás escribiendo en clave o qué? Dime más claro, colega.",
-              "Si me hablas clarito, hasta te hago un descuento imaginario.",
-              "¿Quieres que te lo explique en plan guru vapeador? Pide y se te dará."
-            ];
-            return respuestasRandom[Math.floor(Math.random() * respuestasRandom.length)];
-        }
-
-        // Envío formulario chat
-        chatForm.addEventListener('submit', e => {
-            e.preventDefault();
-            const text = userInput.value.trim();
-            if(!text) return;
-
-            addMessage(text, 'user');
-            userInput.value = '';
-
-            setTimeout(() => {
-                addMessage(blackbotResponse(text), 'blackbot');
-            }, 600);
-        });
-
-        // Cerrar chat
-        closeBtn.addEventListener('click', () => {
-            chatbot.style.display = 'none';
-            openBtn.style.display = 'block';
-        });
-
-        // Abrir chat
+        // Abrir chatbot
         openBtn.addEventListener('click', () => {
             chatbot.style.display = 'flex';
             openBtn.style.display = 'none';
+            addMessage("Hola, soy BlackBot. ¿En qué puedo ayudarte?", 'blackbot');
             userInput.focus();
+        });
+
+        // Cerrar chatbot
+        closeBtn.addEventListener('click', () => {
+            chatbot.style.display = 'none';
+            openBtn.style.display = 'block';
+            messagesContainer.innerHTML = '';
+        });
+
+        // Enviar mensaje usuario y respuesta bot (simulada)
+        chatForm.addEventListener('submit', e => {
+            e.preventDefault();
+            const msg = userInput.value.trim();
+            if(msg === '') return;
+            addMessage(msg, 'user');
+            userInput.value = '';
+
+            // Respuesta básica demo (aquí puedes poner IA o lógica real)
+            setTimeout(() => {
+                addMessage("Estoy procesando tu consulta... (Demo)", 'blackbot');
+            }, 700);
         });
 
         // Toggle voz
@@ -391,34 +363,24 @@
             voiceToggleBtn.textContent = voiceOn ? '🔊 Voz ON' : '🔇 Voz OFF';
             voiceToggleBtn.classList.toggle('off', !voiceOn);
             voiceToggleBtn.setAttribute('aria-pressed', voiceOn);
-            if(!voiceOn) speechSynthesis.cancel();
+            if(!voiceOn && 'speechSynthesis' in window){
+                speechSynthesis.cancel();
+            }
         });
 
-        // Mensaje bienvenida y popup
-        window.onload = () => {
-            addMessage('¡Hola! Soy BlackBot. Escríbeme algo para empezar.', 'blackbot');
+        // Popup oferta: aparece 3 segundos después y desaparece al cerrar
+        const ofertaPopup = document.getElementById('oferta-popup');
+        const cerrarOfertaBtn = document.getElementById('cerrar-oferta');
+        setTimeout(() => {
+            ofertaPopup.style.visibility = 'visible';
+            ofertaPopup.style.opacity = '1';
+        }, 3000);
 
-            // Mostrar popup solo si no se ha cerrado antes
-            const popup = document.getElementById('oferta-popup');
-            const cerrado = localStorage.getItem('ofertaCerrada');
-
-            if (cerrado === 'true') {
-                popup.style.visibility = 'hidden';
-                popup.style.opacity = '0';
-            } else {
-                popup.style.visibility = 'visible';
-                popup.style.opacity = '1';
-            }
-        };
-
-        // Cerrar popup oferta
-        document.getElementById('cerrar-oferta').addEventListener('click', () => {
-            const popup = document.getElementById('oferta-popup');
-            popup.style.opacity = '0';
+        cerrarOfertaBtn.addEventListener('click', () => {
+            ofertaPopup.style.opacity = '0';
             setTimeout(() => {
-                popup.style.visibility = 'hidden';
+                ofertaPopup.style.visibility = 'hidden';
             }, 300);
-            localStorage.setItem('ofertaCerrada', 'true');
         });
     </script>
 </body>
