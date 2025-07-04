@@ -124,6 +124,38 @@
             background: #555;
             color: #ccc;
         }
+
+        /* Estilos popup oferta */
+        #oferta-popup {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            background: #25D366;
+            color: #121212;
+            padding: 15px 20px;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.4);
+            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+            cursor: default;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 11000;
+            max-width: 280px;
+        }
+
+        #oferta-popup button {
+            background: transparent;
+            border: none;
+            font-size: 1.2rem;
+            color: #121212;
+            font-weight: 900;
+            cursor: pointer;
+            position: absolute;
+            top: 6px;
+            right: 10px;
+        }
     </style>
 </head>
 <body>
@@ -197,6 +229,12 @@
             <button type="submit" aria-label="Enviar mensaje">Enviar</button>
         </form>
         <button id="voice-toggle" aria-pressed="true" aria-label="Activar o desactivar voz">🔊 Voz ON</button>
+    </div>
+
+    <!-- Popup oferta -->
+    <div id="oferta-popup">
+        ¡Oferta exclusiva! Consigue un 10% de descuento hoy.
+        <button id="cerrar-oferta" aria-label="Cerrar oferta">×</button>
     </div>
 
     <script>
@@ -330,6 +368,26 @@
         // Mensaje bienvenida
         window.onload = () => {
             addMessage('¡Hola! Soy BlackBot. Escríbeme algo para empezar.', 'blackbot');
+
+            // Mostrar popup solo si no se ha cerrado antes
+            const popup = document.getElementById('oferta-popup');
+            const cerrado = localStorage.getItem('ofertaCerrada');
+
+            if (cerrado === 'true') {
+                popup.style.visibility = 'hidden';
+                popup.style.opacity = '0';
+            } else {
+                popup.style.visibility = 'visible';
+                popup.style.opacity = '1';
+            }
+
+            document.getElementById('cerrar-oferta').onclick = () => {
+                popup.style.opacity = '0';
+                setTimeout(() => {
+                    popup.style.visibility = 'hidden';
+                }, 300);
+                localStorage.setItem('ofertaCerrada', 'true');
+            }
         };
     </script>
 
