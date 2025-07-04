@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Black Brand con Boy Chatbot</title>
+    <title>Black Brand con BlackBot</title>
     <link rel="stylesheet" href="css/styles.css" />
     <style>
         /* Estilos básicos para el chatbot */
@@ -56,7 +56,7 @@
             word-wrap: break-word;
         }
 
-        #chatbot .message.boy {
+        #chatbot .message.blackbot {
             background: #25D366;
             color: #121212;
             padding: 8px 12px;
@@ -162,10 +162,10 @@
     <!-- Botón WhatsApp Fijo -->
     <a href="https://wa.me/34TU_NUMERO" class="boton-whatsapp-fijo" target="_blank" title="Habla con nosotros">💬</a>
 
-    <!-- Chatbot Boy -->
+    <!-- Chatbot BlackBot -->
     <div id="chatbot">
         <header>
-            Boy Chat
+            BlackBot Chat
             <button id="close-chatbot" aria-label="Cerrar chat">×</button>
         </header>
         <div class="messages" id="messages"></div>
@@ -183,7 +183,7 @@
             toggleBtn.textContent = document.body.classList.contains('light') ? '🌞' : '🌙';
         });
 
-        // Chatbot boy básico
+        // Chatbot BlackBot básico
         const chatbot = document.getElementById('chatbot');
         const closeBtn = document.getElementById('close-chatbot');
         const messagesContainer = document.getElementById('messages');
@@ -202,11 +202,11 @@
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
         }
 
-        function boyResponse(input) {
+        function blackbotResponse(input) {
             input = input.toLowerCase();
 
             // Respuestas simples con humor y actitud
-            if(input.includes('hola')) return '¡Ey, qué pasa! Soy tu boy virtual, ¿en qué te ayudo?';
+            if(input.includes('hola')) return '¡Ey, qué pasa! Soy BlackBot, tu asistente virtual. ¿Qué necesitas?';
             if(input.includes('precio')) return 'Los mejores vapers a precios que ni tu cartera sufre.';
             if(input.includes('envío')) return 'Envío rápido, que ni pestañeas y ya lo tienes.';
             if(input.includes('producto') || input.includes('vaper')) return 'Tenemos de todo, desde el básico al pro, para que vapees con estilo.';
@@ -225,13 +225,13 @@
             userInput.value = '';
 
             setTimeout(() => {
-                addMessage(boyResponse(text), 'boy');
+                addMessage(blackbotResponse(text), 'blackbot');
             }, 600);
         });
 
         // Mensaje de bienvenida automático
         window.onload = () => {
-            addMessage('¡Hola! Soy tu boy virtual. Escríbeme algo para empezar.', 'boy');
+            addMessage('¡Hola! Soy BlackBot. Escríbeme algo para empezar.', 'blackbot');
         };
     </script>
 
